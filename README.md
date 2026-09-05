@@ -8,4 +8,4 @@ Sitio público de Movanorte, automatización para negocios en Iquique.
 
 Dominio: movanorte.cl (registrado en NIC Chile el 5 de septiembre de 2026). Por ahora redirige a la URL de GitHub Pages; el paso siguiente es pasar a Servidores DNS con Cloudflare para que el dominio quede como principal con HTTPS.
 
-Publicado en: https://alejandrovegacampusano-sudo.github.io/Movanorte-publico/
+Publicado en: https://alejandrovegacampusano-sudo.github.io/movanorte-publico/
