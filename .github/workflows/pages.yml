@@ -1,4 +1,4 @@
-name: Publicar movanorte.cl en GitHub Pages
+name: Publicar sitio de Movanorte en GitHub Pages
 
 on:
   push:
