@@ -1329,13 +1329,11 @@
   })();
 
 
-  /* progreso de lectura + cabecera que se esconde */
-  var prog=document.getElementById('progress'), top=document.querySelector('.top'), lastY=0;
+  /* barra de progreso de lectura */
+  var prog=document.getElementById('progress');
   window.addEventListener('scroll',function(){
-    var y=window.scrollY, h=document.documentElement.scrollHeight-window.innerHeight;
+    var y=Math.max(0,window.scrollY), h=document.documentElement.scrollHeight-window.innerHeight;
     prog.style.width=(h>0?y/h*100:0)+'%';
-    top.classList.toggle('hide', y>lastY && y>160);
-    lastY=y;
   },{passive:true});
 
   var fine=window.matchMedia('(hover: hover) and (pointer: fine)').matches;
