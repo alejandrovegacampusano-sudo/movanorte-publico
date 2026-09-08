@@ -146,9 +146,9 @@
   .kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--fog-2)}
 
   /* ---------- reveal ---------- */
-  .reveal{opacity:0;transform:translateY(48px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--delay,0s)}
+  .js .reveal{opacity:0;transform:translateY(48px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--delay,0s)}
   .reveal.in{opacity:1;transform:none}
-  .stagger>*{opacity:0;transform:translateY(30px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .js .stagger>*{opacity:0;transform:translateY(30px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
   .stagger.in>*{opacity:1;transform:none}
   .stagger.in>*:nth-child(1){transition-delay:0s}
   .stagger.in>*:nth-child(2){transition-delay:.1s}
@@ -159,7 +159,7 @@
   .stagger.in>*:nth-child(7){transition-delay:.6s}
   .stagger.in>*:nth-child(8){transition-delay:.7s}
   .line{overflow:hidden;display:block}
-  .line>span{display:inline-block;transform:translateY(110%);transition:transform 1s var(--ease)}
+  .js .line>span{display:inline-block;transform:translateY(110%);transition:transform 1s var(--ease)}
   .in .line>span{transform:none}
   .line:nth-child(2)>span{transition-delay:.1s}
   .line:nth-child(3)>span{transition-delay:.2s}
@@ -356,6 +356,33 @@
   .step p{margin:0;color:var(--fog);font-size:15px;line-height:1.55}
   @media (max-width:820px){.steps{grid-template-columns:1fr}}
 
+
+  /* ---------- proceso fijado (pin + scrub) ---------- */
+  .proc{position:relative}
+  .proc.pinned{height:300vh}
+  .proc-sticky{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,3vw,44px);align-items:center}
+  .proc.pinned .proc-sticky{position:sticky;top:104px;height:calc(100svh - 150px)}
+  .proc-rail{position:relative;width:2px;background:var(--line-soft);border-radius:2px;height:100%;min-height:180px}
+  .proc-rail i{position:absolute;inset:0;background:var(--grad);transform:scaleY(0);transform-origin:top;border-radius:2px}
+  .proc.pinned .proc-rail i{transition:transform .25s linear}
+  .proc:not(.pinned) .proc-rail i{transform:scaleY(1)}
+  .proc-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(20px,4vh,52px)}
+  .pstep{display:grid;grid-template-columns:auto 1fr;gap:clamp(16px,2vw,26px);align-items:start}
+  .proc.pinned .pstep{opacity:.3;transition:opacity .5s var(--ease),transform .5s var(--ease);transform:translateY(6px)}
+  .proc.pinned .pstep.on{opacity:1;transform:none}
+  .pstep .num{font-family:var(--serif);font-size:clamp(30px,3.4vw,46px);line-height:1;color:var(--fog-2);min-width:1.6em;transition:color .5s var(--ease)}
+  .proc.pinned .pstep.on .num{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .pstep .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--fog-2)}
+  .pstep h3{font-family:var(--serif);font-size:clamp(24px,3vw,38px);line-height:1.08;margin:8px 0 8px}
+  .pstep p{margin:0;color:var(--fog);font-size:clamp(14.5px,1.5vw,17px);line-height:1.55;max-width:52ch}
+  @media (max-width:900px){
+    .proc.pinned{height:auto}
+    .proc.pinned .proc-sticky{position:static;height:auto}
+    .proc.pinned .pstep{opacity:1;transform:none}
+    .proc-rail{display:none}
+    .proc-sticky{grid-template-columns:1fr}
+  }
+
   /* ---------- inversión ---------- */
   .money{display:grid;grid-template-columns:1fr 1fr;gap:22px}
   .frame{position:relative;background:linear-gradient(135deg,rgba(135,255,193,.05),transparent 50%,rgba(79,216,255,.03));border:1px solid var(--line-soft);padding:clamp(24px,3vw,40px)}
@@ -508,7 +535,7 @@
   /* tilt 3D */
   .tilt{transform-style:preserve-3d;transition:transform .5s var(--ease)}
   /* h2 con máscara */
-  .mask{clip-path:inset(0 0 100% 0);transition:clip-path 1s var(--ease)}
+  .js .mask{clip-path:inset(0 0 100% 0);transition:clip-path 1s var(--ease)}
   .in .mask,.mask.in{clip-path:inset(0 0 0 0)}
   /* línea que se dibuja */
   .draw{position:relative}
@@ -525,6 +552,7 @@
     .hero-bg,.grain{transform:none!important}
   }
 </style>
+<script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
 <div class="progress" id="progress"></div>
@@ -962,10 +990,15 @@
       </div>
       <p class="lead">Primero vemos tu caso, después te mostramos la solución funcionando, y solo si te convence la activamos.</p>
     </div>
-    <div class="steps stagger">
-      <div class="step"><span class="n">PASO 01</span><h3>Vemos tu caso</h3><p>Conversamos 15 minutos sobre qué te está quitando más tiempo hoy.</p></div>
-      <div class="step"><span class="n">PASO 02</span><h3>Armamos tu demo</h3><p>Te mostramos la solución funcionando con tus datos y tu marca. Gratis.</p></div>
-      <div class="step"><span class="n">PASO 03</span><h3>Lo activamos</h3><p>Si te convence, lo dejamos funcionando para tu operación real.</p></div>
+    <div class="proc" id="proc">
+      <div class="proc-sticky">
+        <div class="proc-rail" aria-hidden="true"><i id="procFill"></i></div>
+        <ol class="proc-steps">
+          <li class="pstep on"><span class="num">01</span><div><span class="n">Paso 01</span><h3>Vemos tu caso</h3><p>Conversamos 15 minutos sobre qué te está quitando más tiempo hoy.</p></div></li>
+          <li class="pstep"><span class="num">02</span><div><span class="n">Paso 02</span><h3>Armamos tu demo</h3><p>Te mostramos la solución funcionando con tus datos y tu marca. Gratis.</p></div></li>
+          <li class="pstep"><span class="num">03</span><div><span class="n">Paso 03</span><h3>Lo activamos</h3><p>Si te convence, lo dejamos funcionando para tu operación real.</p></div></li>
+        </ol>
+      </div>
     </div>
 
     <div id="inversion" style="padding-top:clamp(70px,10vh,110px)">
@@ -1329,41 +1362,39 @@
   })();
 
 
-  /* barra de progreso de lectura */
-  var prog=document.getElementById('progress');
-  window.addEventListener('scroll',function(){
-    var y=Math.max(0,window.scrollY), h=document.documentElement.scrollHeight-window.innerHeight;
-    prog.style.width=(h>0?y/h*100:0)+'%';
-  },{passive:true});
-
-  var fine=window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if(fine && !reduce){
-    /* foco de luz */
-    document.querySelectorAll('.spot').forEach(function(el){
-      el.addEventListener('mousemove',function(e){ var r=el.getBoundingClientRect(); el.style.setProperty('--mx',(e.clientX-r.left)+'px'); el.style.setProperty('--my',(e.clientY-r.top)+'px'); });
-    });
-    /* botones magnéticos */
-    document.querySelectorAll('.mag').forEach(function(b){
-      b.addEventListener('mousemove',function(e){ var r=b.getBoundingClientRect(); var dx=(e.clientX-(r.left+r.width/2))/r.width, dy=(e.clientY-(r.top+r.height/2))/r.height; b.style.transform='translate('+(dx*10)+'px,'+(dy*8)+'px)'; });
-      b.addEventListener('mouseleave',function(){ b.style.transform=''; });
-    });
-    /* tilt 3D del mockup */
-    var tilt=document.getElementById('tilt');
-    if(tilt){
-      tilt.addEventListener('mousemove',function(e){ var r=tilt.getBoundingClientRect(); var x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; tilt.style.transform='perspective(1200px) rotateX('+(-y*8)+'deg) rotateY('+(x*10)+'deg) scale(1.02)'; });
-      tilt.addEventListener('mouseleave',function(){ tilt.style.transform=''; });
-    }
-  }
-
-  /* grano + parallax del hero */
+  /* parallax del hero: profundidad al entrar, sin bucle permanente */
   if(!reduce){
-    var grain=document.getElementById('grain'), heroBg=document.getElementById('heroBg'), tg=0, cg=0;
+    var heroBg=document.getElementById('heroBg'), hTick=false;
     window.addEventListener('scroll',function(){
-      tg=window.scrollY*.15;
-      if(window.scrollY<window.innerHeight) heroBg.style.transform='translateY('+(window.scrollY*.3)+'px)';
+      if(hTick) return; hTick=true;
+      requestAnimationFrame(function(){
+        var y=window.scrollY;
+        if(y<window.innerHeight) heroBg.style.transform='translateY('+(y*.3)+'px)';
+        hTick=false;
+      });
     },{passive:true});
-    (function ag(){ cg+=(tg-cg)*.08; grain.style.transform='translateY('+cg+'px)'; requestAnimationFrame(ag); })();
   }
+
+  /* proceso fijado: los tres pasos avanzan con el scroll (pin + scrub) */
+  (function(){
+    var proc=document.getElementById('proc');
+    if(!proc || reduce || !window.matchMedia('(min-width:901px)').matches) return;
+    proc.classList.add('pinned');
+    var fill=document.getElementById('procFill'), steps=proc.querySelectorAll('.pstep'), pTick=false;
+    function upd(){
+      var span=proc.offsetHeight-window.innerHeight;
+      var p=span>0 ? Math.min(1,Math.max(0,-proc.getBoundingClientRect().top/span)) : 0;
+      fill.style.transform='scaleY('+p+')';
+      var i=Math.min(steps.length-1,Math.floor(p*steps.length*0.999));
+      for(var k=0;k<steps.length;k++) steps[k].classList.toggle('on',k===i);
+    }
+    window.addEventListener('scroll',function(){
+      if(pTick) return; pTick=true;
+      requestAnimationFrame(function(){ upd(); pTick=false; });
+    },{passive:true});
+    window.addEventListener('resize',upd);
+    upd();
+  })();
 })();
 </script>
 </body>
