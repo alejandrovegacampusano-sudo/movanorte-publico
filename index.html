@@ -408,6 +408,17 @@
   .pill{cursor:pointer;padding:9px 14px;border:1px solid var(--line-soft);background:transparent;color:var(--fog);font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;transition:all .3s}
   .pill:hover{border-color:var(--fog);color:var(--text)}
   .pill.on{background:var(--mint);border-color:var(--mint);color:var(--ink);font-weight:600}
+  .btn-mail{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    background:transparent;color:var(--text);font-family:var(--sans);font-weight:700;
+    font-size:15px;letter-spacing:-.01em;padding:15px 26px;border-radius:999px;
+    text-decoration:none;border:1px solid var(--line);cursor:pointer;
+    transition:transform .3s var(--ease),border-color .3s,color .3s;
+  }
+  .btn-mail:hover{transform:translateY(-2px);border-color:var(--mint);color:var(--mint)}
+  .btn-mail svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .envio{display:grid;grid-template-columns:1fr auto;gap:12px;margin-top:8px}
+  @media (max-width:560px){.envio{grid-template-columns:1fr}}
   .two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
   .side{display:flex;flex-direction:column;gap:18px}
   .info{background:var(--card);border:1px solid var(--line-soft);padding:26px;transition:border-color .4s,background .4s}
@@ -1006,8 +1017,11 @@
               <span class="pill" data-v="en la noche">Noche</span>
             </div>
           </div>
-          <button type="submit" class="btn pulse mag" style="width:100%;justify-content:center;font-size:17px;padding:18px 26px;margin-top:8px"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 5-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.4-2 1.4-.5 0-1.1.2-3.6-.8-3-1.3-4.9-4.4-5-4.6-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.2c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.3 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.6 0l1-1.2c.2-.3.4-.2.7-.1l2.1 1c.3.2.5.2.6.4.1.1.1.6-.1 1.3z"/></svg>Abrir WhatsApp con mi mensaje</button>
-          <p class="kicker" style="text-align:center;margin:14px 0 0">Demo gratis · Sin compromiso · Respondemos por WhatsApp</p>
+          <div class="envio">
+            <button type="submit" class="btn pulse mag" style="justify-content:center;font-size:17px;padding:18px 26px"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 5-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.4-2 1.4-.5 0-1.1.2-3.6-.8-3-1.3-4.9-4.4-5-4.6-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.2c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.3 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.6 0l1-1.2c.2-.3.4-.2.7-.1l2.1 1c.3.2.5.2.6.4.1.1.1.6-.1 1.3z"/></svg>Enviar por WhatsApp</button>
+            <button type="button" id="mailSend" class="btn-mail" style="font-size:16px;padding:18px 24px"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7.5 9 6 9-6"/></svg>Por correo</button>
+          </div>
+          <p class="kicker" style="text-align:center;margin:14px 0 0">Demo gratis · Sin compromiso · Respondemos por WhatsApp o correo</p>
         </form>
       </div>
       <div class="side stagger">
@@ -1016,6 +1030,7 @@
           <h4>Habla con Movanorte</h4>
           <div style="display:flex;flex-direction:column;gap:10px">
             <a href="https://wa.me/56932577561?text=Hola%2C%20vi%20movanorte.cl%20y%20quiero%20una%20demo%20gratis." target="_blank" rel="noopener"><svg class="f" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 5-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.4-2 1.4-.5 0-1.1.2-3.6-.8-3-1.3-4.9-4.4-5-4.6-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.2c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.3 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.6 0l1-1.2c.2-.3.4-.2.7-.1l2.1 1c.3.2.5.2.6.4.1.1.1.6-.1 1.3z"/></svg><span class="mono">+56 9 3257 7561</span></a>
+            <a href="mailto:movanorte@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7.5 9 6 9-6"/></svg><span class="mono">movanorte@gmail.com</span></a>
             <a href="https://instagram.com/movanorte" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="var(--mint)"/></svg><span class="mono">@movanorte</span></a>
             <a href="https://movanorte.cl"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="mono">movanorte.cl</span></a>
           </div>
@@ -1052,9 +1067,9 @@
       </div>
       <div><h5>Servicios</h5><ul><li><a href="#servicios" class="ul">Webs y landings</a></li><li><a href="#servicios" class="ul">Agenda automatizada</a></li><li><a href="#servicios" class="ul">Carta digital con QR</a></li><li><a href="#servicios" class="ul">Pedidos automatizados</a></li><li><a href="#servicios" class="ul">Dashboards y reportes</a></li><li><a href="#servicios" class="ul">Presentaciones y documentos</a></li><li><a href="#servicios" class="ul">Seguimiento y cobros</a></li><li><a href="#servicios" class="ul">Bots a medida</a></li></ul></div>
       <div><h5>Movanorte</h5><ul><li><a href="#contexto" class="ul">El contexto</a></li><li><a href="#ejemplos" class="ul">Ejemplos por rubro</a></li><li><a href="#proceso" class="ul">Cómo funciona</a></li><li><a href="#inversion" class="ul">Inversión</a></li></ul></div>
-      <div><h5>Demo gratis</h5><p style="font-size:13px">15 minutos para ver tu caso y la solución funcionando con tu marca. Sin costo.</p><a class="btn mag" href="https://wa.me/56932577561?text=Hola%2C%20vi%20movanorte.cl%20y%20quiero%20una%20demo%20gratis." target="_blank" rel="noopener" style="padding:12px 20px;font-size:14px"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 5-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.4-2 1.4-.5 0-1.1.2-3.6-.8-3-1.3-4.9-4.4-5-4.6-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.2c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.3 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.6 0l1-1.2c.2-.3.4-.2.7-.1l2.1 1c.3.2.5.2.6.4.1.1.1.6-.1 1.3z"/></svg>Escribir por WhatsApp</a></div>
+      <div><h5>Demo gratis</h5><p style="font-size:13px">15 minutos para ver tu caso y la solución funcionando con tu marca. Sin costo.</p><a class="btn mag" href="https://wa.me/56932577561?text=Hola%2C%20vi%20movanorte.cl%20y%20quiero%20una%20demo%20gratis." target="_blank" rel="noopener" style="padding:12px 20px;font-size:14px"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 5-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.4-2 1.4-.5 0-1.1.2-3.6-.8-3-1.3-4.9-4.4-5-4.6-.2-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.2c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.3 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.6 0l1-1.2c.2-.3.4-.2.7-.1l2.1 1c.3.2.5.2.6.4.1.1.1.6-.1 1.3z"/></svg>Escribir por WhatsApp</a><p style="font-size:13px;margin:14px 0 0">o por correo a <a href="mailto:movanorte@gmail.com" class="ul">movanorte@gmail.com</a></p></div>
     </div>
-    <div class="fbot"><div>© 2026 Movanorte · Alejandro Vega · Iquique, Chile</div><div>movanorte.cl · @movanorte · +56 9 3257 7561</div></div>
+    <div class="fbot"><div>© 2026 Movanorte · Alejandro Vega · Iquique, Chile</div><div>movanorte.cl · movanorte@gmail.com · +56 9 3257 7561</div></div>
   </div>
 </footer>
 
@@ -1130,15 +1145,36 @@
   function pills(id){ var box=document.getElementById(id); box.querySelectorAll('.pill').forEach(function(p){ p.addEventListener('click',function(){ box.querySelectorAll('.pill').forEach(function(q){ q.classList.remove('on'); }); p.classList.add('on'); }); }); }
   pills('pills'); pills('pillsT');
 
-  /* formulario → WhatsApp */
-  var toast=document.getElementById('toast');
-  document.getElementById('waForm').addEventListener('submit',function(e){
+  /* formulario → WhatsApp o correo, con el mismo mensaje */
+  var toast=document.getElementById('toast'), form=document.getElementById('waForm');
+  function datos(){
+    return {
+      n: document.getElementById('fName').value.trim(),
+      b: document.getElementById('fBiz').value.trim(),
+      pain: document.querySelector('#pills .pill.on').dataset.v,
+      when: document.querySelector('#pillsT .pill.on').dataset.v
+    };
+  }
+  function mensaje(d){
+    return 'Hola, soy '+d.n+' de '+d.b+'. Vi movanorte.cl y quiero una demo gratis. Lo que más tiempo me quita es '+d.pain+'. Me acomoda hablar '+d.when+'.';
+  }
+  function avisar(){ toast.classList.add('on'); setTimeout(function(){ toast.classList.remove('on'); },4500); }
+
+  form.addEventListener('submit',function(e){
     e.preventDefault();
-    var n=document.getElementById('fName').value.trim(), b=document.getElementById('fBiz').value.trim();
-    var pain=document.querySelector('#pills .pill.on').dataset.v, when=document.querySelector('#pillsT .pill.on').dataset.v;
-    var msg='Hola, soy '+n+' de '+b+'. Vi movanorte.cl y quiero una demo gratis. Lo que más tiempo me quita es '+pain+'. Me acomoda hablar '+when+'.';
-    window.open('https://wa.me/56932577561?text='+encodeURIComponent(msg),'_blank','noopener');
-    toast.classList.add('on'); setTimeout(function(){ toast.classList.remove('on'); },4500);
+    var d=datos();
+    window.open('https://wa.me/56932577561?text='+encodeURIComponent(mensaje(d)),'_blank','noopener');
+    avisar();
+  });
+
+  document.getElementById('mailSend').addEventListener('click',function(){
+    // el boton es type=button, asi que el navegador no valida solo
+    if(!form.reportValidity()) return;
+    var d=datos();
+    var asunto='Demo gratis · '+d.b;
+    var cuerpo=mensaje(d)+'\n\n—\n'+d.n+'\n'+d.b;
+    window.location.href='mailto:movanorte@gmail.com?subject='+encodeURIComponent(asunto)+'&body='+encodeURIComponent(cuerpo);
+    avisar();
   });
 
   /* carrusel con arrastre e inercia */
