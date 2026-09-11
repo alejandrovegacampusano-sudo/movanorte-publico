@@ -1158,13 +1158,19 @@
   function mensaje(d){
     return 'Hola, soy '+d.n+' de '+d.b+'. Vi movanorte.cl y quiero una demo gratis. Lo que más tiempo me quita es '+d.pain+'. Me acomoda hablar '+d.when+'.';
   }
-  function avisar(){ toast.classList.add('on'); setTimeout(function(){ toast.classList.remove('on'); },4500); }
+  var avisoT=document.getElementById('toastT'), avisoP=document.getElementById('toastP'), avisoTimer;
+  function avisar(titulo,texto){
+    avisoT.textContent=titulo; avisoP.textContent=texto;
+    toast.classList.add('on');
+    clearTimeout(avisoTimer);
+    avisoTimer=setTimeout(function(){ toast.classList.remove('on'); },7000);
+  }
 
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var d=datos();
     window.open('https://wa.me/56932577561?text='+encodeURIComponent(mensaje(d)),'_blank','noopener');
-    avisar();
+    avisar('Mensaje listo','Se abrió WhatsApp con tu mensaje. Solo pulsa enviar.');
   });
 
   document.getElementById('mailSend').addEventListener('click',function(){
@@ -1173,8 +1179,25 @@
     var d=datos();
     var asunto='Demo gratis · '+d.b;
     var cuerpo=mensaje(d)+'\n\n—\n'+d.n+'\n'+d.b;
+
+    // Red de seguridad: un enlace de correo abre el programa que el visitante
+    // tenga por defecto, y mucha gente usa webmail y no tiene ninguno. Copiamos
+    // el mensaje antes, para que siempre pueda pegarlo aunque no se abra nada.
+    var copiado=false;
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText('Para: movanorte@gmail.com\n'+asunto+'\n\n'+cuerpo);
+        copiado=true;
+      }
+    }catch(err){}
+
     window.location.href='mailto:movanorte@gmail.com?subject='+encodeURIComponent(asunto)+'&body='+encodeURIComponent(cuerpo);
-    avisar();
+    avisar(
+      copiado ? 'Mensaje listo y copiado' : 'Mensaje listo',
+      copiado
+        ? 'Se abrió tu programa de correo. Si no se abrió ninguno, pega el mensaje —ya lo copiamos— en un correo a movanorte@gmail.com.'
+        : 'Se abrió tu programa de correo con el mensaje escrito. Va dirigido a movanorte@gmail.com.'
+    );
   });
 
   /* carrusel con arrastre e inercia */
