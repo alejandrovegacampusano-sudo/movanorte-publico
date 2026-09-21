@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Diagnóstico Transportes Medalla</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F5F6F8;
+  --card:#FFFFFF;
+  --ink:#13171E;
+  --ink-2:#4C5663;
+  --ink-3:#828C99;
+  --line:#DEE2E7;
+  --line-2:#EDEFF2;
+  --acc:#C25708;
+  --acc-bg:#FDEEE2;
+  --alto:#B02D26;      /* severidad alta */
+  --alto-bg:#FBE9E8;
+  --medio:#8A6100;
+  --medio-bg:#FBF1DC;
+  --bien:#15704A;
+  --bien-bg:#E4F3EC;
+  --cond:"Barlow Condensed","Arial Narrow",sans-serif;
+  --sans:"Barlow",-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1116; --card:#161A21; --ink:#EAECEF; --ink-2:#A8B1BC; --ink-3:#79838F;
+    --line:#282E37; --line-2:#1E242C;
+    --acc:#F2843C; --acc-bg:#2C1708;
+    --alto:#EA7A73; --alto-bg:#2C1413;
+    --medio:#D9A73C; --medio-bg:#2A2109;
+    --bien:#4CBF8B; --bien-bg:#0E2A1F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1116; --card:#161A21; --ink:#EAECEF; --ink-2:#A8B1BC; --ink-3:#79838F;
+  --line:#282E37; --line-2:#1E242C;
+  --acc:#F2843C; --acc-bg:#2C1708;
+  --alto:#EA7A73; --alto-bg:#2C1413;
+  --medio:#D9A73C; --medio-bg:#2A2109;
+  --bien:#4CBF8B; --bien-bg:#0E2A1F;
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;line-height:1.1;text-wrap:balance}
+p{margin:0}
+strong{font-weight:600}
+
+.hoja{max-width:860px;margin-inline:auto;padding:0 24px 80px}
+
+/* --------------------------------- Cabecera --------------------------------- */
+.cab{padding:44px 0 30px;border-bottom:3px solid var(--ink)}
+.cab .de{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-bottom:18px}
+.cab h1{font-family:var(--cond);font-size:clamp(38px,6.4vw,62px);font-weight:700;letter-spacing:-.01em;text-transform:uppercase}
+.cab .para{font-size:18px;color:var(--ink-2);margin-top:12px;max-width:56ch}
+.cab .ficha{display:flex;gap:26px;flex-wrap:wrap;margin-top:24px;font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+.cab .ficha b{display:block;font-family:var(--sans);font-size:14px;color:var(--ink);font-weight:600;margin-top:2px}
+
+/* --------------------------------- Veredicto -------------------------------- */
+.veredicto{background:var(--ink);color:var(--bg);border-radius:4px;padding:26px 28px;margin:30px 0 40px}
+.veredicto p{font-size:19px;line-height:1.45;max-width:52ch}
+.veredicto b{color:#FF9B45}
+
+/* --------------------------------- Secciones -------------------------------- */
+.sec{margin-top:44px}
+.sec > h2{font-family:var(--cond);font-size:26px;text-transform:uppercase;letter-spacing:.01em;padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:22px;display:flex;align-items:baseline;gap:12px}
+.sec > h2 span{font-family:var(--mono);font-size:12px;color:var(--acc);letter-spacing:.1em}
+
+/* --------------------------------- Hallazgos -------------------------------- */
+.hall{display:flex;flex-direction:column;gap:10px}
+.h{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:16px 18px}
+.h .sev{width:4px;align-self:stretch;border-radius:2px;background:var(--medio)}
+.h.alta .sev{background:var(--alto)}
+.h.bien .sev{background:var(--bien)}
+.h b{display:block;font-size:16px;font-weight:600;margin-bottom:3px}
+.h p{color:var(--ink-2);font-size:15px}
+.h .et{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:3px;white-space:nowrap;background:var(--medio-bg);color:var(--medio);align-self:center}
+.h.alta .et{background:var(--alto-bg);color:var(--alto)}
+.h.bien .et{background:var(--bien-bg);color:var(--bien)}
+@media (max-width:640px){.h{grid-template-columns:auto 1fr}.h .et{grid-column:2;justify-self:start;margin-top:6px}}
+
+/* ---------------------------------- Cifras ---------------------------------- */
+.cifras{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+@media (max-width:660px){.cifras{grid-template-columns:repeat(2,1fr)}}
+.c{background:var(--card);padding:20px 18px}
+.c b{display:block;font-family:var(--cond);font-size:40px;font-weight:700;line-height:.95;letter-spacing:-.01em}
+.c b.mal{color:var(--alto)}
+.c b.ok{color:var(--bien)}
+.c span{display:block;font-size:13.5px;color:var(--ink-2);margin-top:8px;line-height:1.35}
+.c em{display:block;font-style:normal;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-top:8px}
+
+/* -------------------------------- Comparativa ------------------------------- */
+.duelo{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch}
+@media (max-width:660px){.duelo{grid-template-columns:1fr;gap:12px}}
+.lado{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:22px}
+.lado.tu{border-color:var(--acc);border-width:2px}
+.lado .quien{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px}
+.lado.tu .quien{color:var(--acc)}
+.lado .nota{font-family:var(--cond);font-size:52px;font-weight:700;line-height:.9}
+.lado .estrellas{color:var(--acc);font-size:15px;letter-spacing:2px;margin:6px 0 4px}
+.lado .op{font-size:15px;color:var(--ink-2)}
+.lado .op b{font-size:22px;color:var(--ink);font-family:var(--cond);font-weight:700}
+.lado .nota-pie{margin-top:14px;padding-top:12px;border-top:1px solid var(--line-2);font-size:14px;color:var(--ink-2)}
+.versus{display:grid;place-items:center;font-family:var(--cond);font-size:20px;color:var(--ink-3);letter-spacing:.06em}
+.anuncio{margin-top:14px;background:var(--acc-bg);border-left:3px solid var(--acc);border-radius:0 4px 4px 0;padding:16px 18px}
+.anuncio .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin-bottom:7px}
+.anuncio p{font-size:15.5px;color:var(--ink)}
+.anuncio p em{font-style:normal;background:var(--acc);color:#fff;padding:1px 5px;border-radius:2px;font-weight:600}
+
+/* ------------------------------- Recomendaciones ---------------------------- */
+.reco{display:flex;flex-direction:column;gap:2px}
+.r{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--line-2)}
+.r:last-child{border-bottom:none}
+.r .n{font-family:var(--cond);font-size:30px;font-weight:700;color:var(--acc);line-height:1}
+.r b{display:block;font-size:16.5px;font-weight:600;margin-bottom:4px}
+.r p{color:var(--ink-2);font-size:15px}
+
+/* ----------------------------------- Cierre --------------------------------- */
+.cierre{margin-top:44px;background:var(--card);border:1px solid var(--line);border-top:3px solid var(--acc);border-radius:4px;padding:28px}
+.cierre h2{font-family:var(--cond);font-size:26px;text-transform:uppercase;margin-bottom:12px}
+.cierre p{color:var(--ink-2);max-width:58ch}
+.cierre .firma{margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2);display:flex;gap:30px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+.cierre .firma b{display:block;font-family:var(--sans);font-size:14.5px;color:var(--ink);font-weight:600;margin-top:2px}
+
+.nota-metodo{margin-top:32px;font-family:var(--mono);font-size:11.5px;color:var(--ink-3);line-height:1.6;max-width:70ch;padding-top:16px;border-top:1px solid var(--line)}
+
+
+/* ------------------------- Añadidos para este prospecto ---------------------- */
+.sub{font-family:var(--cond);font-size:20px;text-transform:uppercase;letter-spacing:.02em;color:var(--ink-2);margin:26px 0 6px;padding-top:18px;border-top:1px solid var(--line)}
+/* Marcador interno: resolver y BORRAR antes de compartir el documento */
+.pend{font-family:var(--mono);font-size:11.5px;background:var(--medio-bg);color:var(--medio);padding:1px 6px;border-radius:3px;white-space:normal}
+
+@media print{body{background:#fff}.sec,.h,.duelo{break-inside:avoid}}
+</style>
+
+<div class="hoja">
+
+  <header class="cab">
+    <div class="de">Preparado por Movanorte · para Transportes Medalla (Medalla y Vargas Ltda.)</div>
+    <h1>Transportes Medalla en internet:<br>qué se ve hoy</h1>
+    <p class="para">Revisión de lo que cualquier persona —o cualquier cliente suyo— encuentra hoy al entrar a transportesmedalla.cl.</p>
+    <div class="ficha">
+      <div>Sitio<b>transportesmedalla.cl</b></div>
+      <div>Medido el<b>21 de septiembre de 2026</b></div>
+      <div>Método<b>Solo información pública</b></div>
+    </div>
+  </header>
+
+  <div class="veredicto">
+    <p>El dominio sigue siendo de ustedes y su correo está bien protegido. <b>Lo que cambió es el contenido:</b> hoy transportesmedalla.cl muestra páginas de apuestas en línea que no tienen relación con la empresa. Es algo que les ocurre a muchas empresas sin que nadie dentro lo note, y tiene arreglo.</p>
+  </div>
+
+  <!-- 1 -->
+  <section class="sec">
+    <h2><span>01</span> El sitio, en números</h2>
+    <div class="cifras">
+      <div class="c"><b class="mal">2</b><span>Sitios de apuestas ajenos bajo su dominio</span><em>Uno en turco, otro en indonesio</em></div>
+      <div class="c"><b class="mal">0</b><span>Páginas del sitio original en línea</span><em>De 5 direcciones revisadas</em></div>
+      <div class="c"><b class="mal">19 ago</b><span>Fecha del archivo ajeno más antiguo que se puede fechar</span><em>Al menos un mes visible</em></div>
+      <div class="c"><b class="ok">2027</b><span>Su dominio está vigente y a nombre de la empresa</span><em>NIC Chile · hasta el 23 de mayo</em></div>
+    </div>
+
+    <div class="hall" style="margin-top:16px">
+      <div class="h alta">
+        <i class="sev"></i>
+        <div>
+          <b>La portada muestra un casino en línea, en turco</b>
+          <p>Quien escribe transportesmedalla.cl en su teléfono o computador ve hoy una página titulada «Esbet – Resmi Online Platform», en idioma turco, con 179 menciones a esa marca y ninguna a Transportes Medalla fuera de la dirección del sitio. Todos los botones llevan a un sitio externo de apuestas. Ocurre igual con y sin «www», y desde el teléfono.</p>
+        </div>
+        <span class="et">Alta</span>
+      </div>
+
+      <div class="h alta">
+        <i class="sev"></i>
+        <div>
+          <b>En la dirección de «Servicios» hay un segundo sitio de apuestas</b>
+          <p>transportesmedalla.cl/servicios/ —donde antes estaban paquetería, carga masiva, operaciones logísticas y almacenaje— muestra hoy una página en indonesio de una marca llamada «ROYAL188». Son dos contenidos distintos, en dos idiomas, lo que sugiere que el espacio donde está alojado el sitio fue utilizado por terceros más de una vez.</p>
+        </div>
+        <span class="et">Alta</span>
+      </div>
+
+      <div class="h alta">
+        <i class="sev"></i>
+        <div>
+          <b>El sitio original ya no está en línea</b>
+          <p>Las páginas que tenía su sitio —Quiénes somos, Contáctenos, Centro de ayuda— hoy responden «no encontrado». Tampoco está el formulario de cotización que pedía kilos, metros cúbicos, origen y destino. Un cliente que guardó un enlace antiguo o que busca cómo cotizar un flete no encuentra nada de la empresa.</p>
+        </div>
+        <span class="et">Alta</span>
+      </div>
+
+      <div class="h alta">
+        <i class="sev"></i>
+        <div>
+          <b>Las páginas ajenas le piden a Google que las registre con su nombre</b>
+          <p>Ambas páginas declaran a transportesmedalla.cl como su dirección oficial y traen la instrucción de ser indexadas. En la práctica, usan la antigüedad y la buena reputación de su dominio para posicionar apuestas. Y ya está pasando: al 21 de septiembre de 2026, quien busca «Transportes Medalla y Vargas» en Google ve como primer resultado, bajo la dirección transportesmedalla.cl, el título «Esbet - Resmi Online Platform - Esbet Giriş 2026», justo encima de la ficha de la empresa. El paso siguiente de Google suele ser mostrar una advertencia junto al nombre o retirar el sitio de las búsquedas.</p>
+        </div>
+        <span class="et">Alta</span>
+      </div>
+
+      <div class="h">
+        <i class="sev"></i>
+        <div>
+          <b>Desde cuándo: al menos desde el 19 de agosto</b>
+          <p>No es posible fijar la fecha exacta desde afuera. El archivo que hoy se muestra en «Servicios» fue modificado por última vez el 19 de agosto de 2026, así que el contenido ajeno lleva como mínimo un mes visible. Internet Archive, que guarda copias históricas de los sitios, tiene su última copia de transportesmedalla.cl el 27 de diciembre de 2021, y en esa fecha el sitio era el de la empresa y funcionaba con normalidad.</p>
+        </div>
+        <span class="et">Media</span>
+      </div>
+
+      <div class="h">
+        <i class="sev"></i>
+        <div>
+          <b>Por dónde ocurrió no se puede saber desde afuera</b>
+          <p>Su sitio original funcionaba sobre WordPress con varios complementos (la última copia pública, de diciembre de 2021, muestra la versión 5.5.7). Los sitios de ese tipo que pasan un tiempo sin actualizaciones son el blanco habitual de ataques automatizados, que no eligen a la empresa: recorren miles de sitios a la vez. Si ese fue el camino aquí, o fue una clave filtrada del hosting, solo se puede establecer revisando desde dentro.</p>
+        </div>
+        <span class="et">Media</span>
+      </div>
+
+      <div class="h">
+        <i class="sev"></i>
+        <div>
+          <b>El servidor del sitio está autorizado a enviar correo a nombre de la empresa</b>
+          <p>Su correo funciona en Microsoft 365, aparte del sitio. Pero la configuración pública del dominio también autoriza al servidor web a enviar mensajes como @transportesmedalla.cl. Mientras ese servidor no esté limpio, conviene retirar esa autorización si no se usa. No hay indicios de que se haya usado mal; es una precaución.</p>
+        </div>
+        <span class="et">Media</span>
+      </div>
+
+      <div class="h">
+        <i class="sev"></i>
+        <div>
+          <b>El candado del navegador aparece en verde, y eso confunde</b>
+          <p>El certificado de seguridad está vigente (emitido el 5 de agosto de 2026, vence el 3 de noviembre). El candado solo indica que la conexión es cifrada, no que el contenido sea de la empresa. Para un visitante, la página ajena se ve «segura».</p>
+        </div>
+        <span class="et">Media</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="sec">
+    <h2><span>02</span> Lo que sí está funcionando</h2>
+    <div class="hall">
+      <div class="h bien">
+        <i class="sev"></i>
+        <div>
+          <b>El dominio no se perdió: sigue a nombre de la empresa</b>
+          <p>En NIC Chile, transportesmedalla.cl figura registrado por Sociedad Comercial Transportes Medalla y Vargas Limitada, desde mayo de 2017 y con vigencia hasta el 23 de mayo de 2027. Esa es la parte difícil de recuperar, y ustedes no la perdieron. Lo afectado es el contenido alojado en el hosting, y eso se limpia.</p>
+        </div>
+        <span class="et">Bien</span>
+      </div>
+      <div class="h bien">
+        <i class="sev"></i>
+        <div>
+          <b>El correo está separado del sitio y bien protegido</b>
+          <p>Los correos @transportesmedalla.cl se reciben en Microsoft 365, no en el servidor afectado, y el dominio tiene activada la política más estricta contra suplantación (DMARC en modo rechazo). Es una configuración correcta y cuidadosa: alguien se ocupó bien de esa parte.</p>
+        </div>
+        <span class="et">Bien</span>
+      </div>
+      <div class="h bien">
+        <i class="sev"></i>
+        <div>
+          <b>El contenido de su sitio original se puede recuperar</b>
+          <p>Internet Archive conserva copias de 2020 y 2021 con sus textos: los cuatro servicios, la cobertura Arica · Iquique · Calama · Antofagasta · Copiapó · Santiago, el horario continuado de 08:30 a 17:00 y los datos de cada bodega. No hay que partir de cero.</p>
+        </div>
+        <span class="et">Bien</span>
+      </div>
+      <div class="h bien">
+        <i class="sev"></i>
+        <div>
+          <b>La trayectoria es el activo, y no depende del sitio</b>
+          <p>Según los directorios del rubro y su propia cuenta de Instagram: un legado familiar que comienza en 1950 con don Ismael Medalla Veas, oficina central en Iquique con sucursales en Antofagasta y Santiago, bodegas propias y flota con GPS. Eso no se improvisa; el sitio, sí se rehace.</p>
+        </div>
+        <span class="et">Bien</span>
+      </div>
+      <div class="h bien">
+        <i class="sev"></i>
+        <div>
+          <b>Los teléfonos de los directorios son los correctos</b>
+          <p>Los números que aparecen en directorios de empresas (+56 9 8808 6461 y 57 252 3535) coinciden con los que publicaba su propio sitio en 2021. Quien los busca por esa vía todavía llega a ustedes.</p>
+        </div>
+        <span class="et">Bien</span>
+      </div>
+      <div class="h bien">
+        <i class="sev"></i>
+        <div>
+          <b>Su ficha de Google está viva y bien evaluada</b>
+          <p>La ficha de su bodega de Santiago (Lo Espejo) tiene 4,1 estrellas con 54 opiniones, horario y teléfono al día. Es lo primero que ve quien los busca desde el teléfono. El detalle: el botón «Sitio web» de esa ficha apunta a transportesmedalla.cl, así que hoy Google Maps está enviando a sus clientes al sitio de apuestas.</p>
+        </div>
+        <span class="et">Bien</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="sec">
+    <h2><span>03</span> Qué haría Movanorte en los primeros 7 días</h2>
+    <div class="reco">
+      <div class="r">
+        <span class="n">1</span>
+        <div>
+          <b>Recuperar y limpiar · días 1 y 2</b>
+          <p>Con ustedes y su proveedor de hosting: cambiar todas las claves de acceso, retirar el contenido ajeno, revisar qué más quedó en el espacio y dejar en línea una página provisoria limpia con sus teléfonos, WhatsApp y cobertura. Las claves las manejan ustedes; nosotros guiamos el proceso. De paso, retirar la autorización de envío de correo del servidor antiguo.</p>
+        </div>
+      </div>
+      <div class="r">
+        <span class="n">2</span>
+        <div>
+          <b>Avisarle a Google · día 2</b>
+          <p>Registrar el dominio en Google Search Console, pedir que se retiren de los resultados las páginas de apuestas y solicitar una nueva revisión del sitio. Mientras antes se hace, menos daño queda en las búsquedas por «Transportes Medalla».</p>
+        </div>
+      </div>
+      <div class="r">
+        <span class="n">3</span>
+        <div>
+          <b>Sitio nuevo con cotizador de fletes · días 3 a 6</b>
+          <p>Un sitio liviano, sin complementos que haya que estar actualizando, con los textos recuperados de su sitio original. Al centro, un cotizador: origen, destino, kilos y metros cúbicos, y la solicitud llega ordenada a quien cotiza, con un botón directo a WhatsApp. Su sitio anterior ya pedía esos datos; la diferencia es que ahora no se pierden en una bandeja de correo.</p>
+        </div>
+      </div>
+      <div class="r">
+        <span class="n">4</span>
+        <div>
+          <b>Medición y direcciones antiguas · día 7</b>
+          <p>Instalar medición para saber cuánta gente entra y qué ruta cotiza más, y redirigir las direcciones antiguas (Servicios, Quiénes somos, Contáctenos) a sus equivalentes nuevas, para que ningún enlace guardado termine en un error.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub">Y después</h3>
+    <div class="reco">
+      <div class="r">
+        <span class="n">5</span>
+        <div>
+          <b>Seguimiento de envíos</b>
+          <p>Que el cliente escriba su número de guía y vea dónde va su carga: recibida en bodega, en ruta, disponible para retiro, entregada. Cada consulta que se responde sola es una llamada menos a la bodega.</p>
+        </div>
+      </div>
+      <div class="r">
+        <span class="n">6</span>
+        <div>
+          <b>WhatsApp automatizado para retiros</b>
+          <p>Coordinación de retiros por WhatsApp sin que alguien tenga que estar pendiente del teléfono: el cliente indica dirección, bultos y horario, recibe la confirmación y el aviso cuando el camión va en camino. Usando la vía oficial de WhatsApp para empresas, que no pone en riesgo el número.</p>
+        </div>
+      </div>
+      <div class="r">
+        <span class="n">7</span>
+        <div>
+          <b>Un panel para ver la operación</b>
+          <p>Cotizaciones pendientes, retiros del día y envíos en curso por bodega —Iquique, Antofagasta, Santiago— en una sola pantalla, en vez de repartidos entre correos, planillas y chats.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cierre">
+    <h2>Lo que sigue</h2>
+    <p>Este diagnóstico es gratis y suyo, lo usen conmigo o no. Si ya tienen a alguien a cargo del sitio, pueden entregarle este documento tal cual: con lo que aquí aparece le basta para empezar. Y si prefieren que lo veamos juntos, son treinta minutos, por videollamada o en su bodega.</p>
+    <div class="firma">
+      <div>Contacto<b>Alejandro Vega · Movanorte</b></div>
+      <div>Correo<b>contacto@movanorte.cl</b></div>
+      <div>Sitio<b>movanorte.cl</b></div>
+    </div>
+  </div>
+
+  <p class="nota-metodo">
+    Método: lectura de las páginas públicas de transportesmedalla.cl tal como las recibe un navegador común, consulta del registro público del dominio en NIC Chile, de su configuración pública de DNS y de su certificado de seguridad, y revisión de las copias históricas del sitio en Internet Archive (web.archive.org). Todos los datos son del 21 de septiembre de 2026 y provienen exclusivamente de fuentes públicas: no se accedió a ningún sistema, cuenta ni información privada de la empresa, no se probó ningún ingreso y no se envió ningún formulario. Por lo mismo, este documento describe lo que se ve desde afuera; cómo se produjo el cambio y qué más hay en el hosting solo puede revisarse desde dentro, con la empresa.
+  </p>
+</div>
+</html>
