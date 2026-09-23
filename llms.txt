@@ -1,0 +1,44 @@
+# Movanorte
+
+> Automatización para pymes en Iquique, Chile. Webs, agendas que se
+> confirman solas, cartas digitales con QR, pedidos por WhatsApp,
+> dashboards y reportes automáticos. Cada solución se entrega
+> funcionando con la marca y los datos del cliente.
+
+Movanorte es un negocio unipersonal de Iquique, región de Tarapacá,
+fundado por Alejandro Vega. Atiende en persona a negocios de Iquique
+y Alto Hospicio, y al resto de Chile por videollamada.
+
+## Qué hace
+
+- **Webs y landings**: sitio de una página con dominio propio y botón directo a WhatsApp.
+- **Agenda automatizada**: reservas online con confirmación y recordatorio por WhatsApp, sin que el dueño conteste.
+- **Carta digital con QR**: menú que se abre con un código QR en la mesa y se actualiza al instante, sin reimprimir.
+- **Pedidos automatizados**: el cliente pide y recibe aviso en cada etapa; el dueño solo cambia el estado.
+- **Dashboards y reportes**: ocupación, ingresos y operación en un panel en vivo o en un reporte que se arma solo.
+- **Presentaciones y documentos**: informes y propuestas con la marca del cliente, listos para enviar.
+- **Seguimiento de clientes y cobros**: a quién contactar hoy y por qué, con recordatorios automáticos.
+- **Bots y automatización a medida**: lo que pida la operación.
+
+## Cómo trabaja
+
+Tres pasos: una conversación de 15 minutos para ver qué le quita más
+tiempo al negocio; una demo funcionando con los datos y la marca del
+cliente, gratis y sin compromiso; y si convence, se deja funcionando.
+
+No hay lista de precios publicada porque el alcance cambia en cada
+caso. El valor se entrega por escrito después de la conversación.
+
+## Caso documentado
+
+**Transportes Marmax** (transporte grupal, Región Metropolitana y V
+Región): sistema de reservas con seguimiento por código y QR,
+aprobación desde un panel y avisos automáticos al pasajero y a la
+empresa. Antes todo pasaba por el teléfono. Sitio: marmaxtransporte.cl
+
+## Contacto
+
+- Sitio: https://movanorte.cl
+- WhatsApp: +56 9 3257 7561
+- Correo: movanorte@gmail.com
+- Instagram: https://instagram.com/movanorte
