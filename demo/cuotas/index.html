@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cuotas y cobranza para escuelas de conductores — Demo Movanorte</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#F2761B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Marca Movanorte */
+  --brand-500:#F2761B; --brand-400:#FF9333; --brand-600:#D65E0A;
+  --brand-soft:rgba(242,118,27,.13); --brand-glow:rgba(242,118,27,.30);
+
+  /* Superficies — claro */
+  --bg:#EEF1F6; --surface:#FFFFFF; --surface-2:#F7F9FC; --surface-3:#EDF1F7;
+  --line:rgba(11,14,19,.10); --line-strong:rgba(11,14,19,.18);
+
+  /* Texto */
+  --tx-hi:#0E1218; --tx-mid:#4C5766; --tx-low:#7E8A9C;
+
+  /* Semánticos */
+  --ok:#17935A; --ok-soft:rgba(23,147,90,.12);
+  --warn:#B77708; --warn-soft:rgba(183,119,8,.13);
+  --danger:#D03A3F; --danger-soft:rgba(208,58,63,.12);
+  --info:#1D7ACB; --info-soft:rgba(29,122,203,.12);
+  --wa:#128C7E; --wa-soft:rgba(18,140,126,.12);
+
+  --r-sm:8px; --r-md:14px; --r-lg:20px; --r-xl:28px; --r-full:999px;
+  --sh-1:0 1px 2px rgba(11,14,19,.08);
+  --sh-2:0 12px 30px -16px rgba(11,14,19,.28);
+  --sh-3:0 28px 60px -22px rgba(11,14,19,.35);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --maxw:1180px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0B0E13; --surface:#11151C; --surface-2:#171C25; --surface-3:#1F2632;
+    --line:rgba(255,255,255,.08); --line-strong:rgba(255,255,255,.17);
+    --tx-hi:#F4F6F9; --tx-mid:#B4BECD; --tx-low:#7E8A9C;
+    --ok:#2FBF71; --ok-soft:rgba(47,191,113,.14);
+    --warn:#F5B942; --warn-soft:rgba(245,185,66,.14);
+    --danger:#F2555A; --danger-soft:rgba(242,85,90,.14);
+    --info:#4CA9F5; --info-soft:rgba(76,169,245,.14);
+    --wa:#25D366; --wa-soft:rgba(37,211,102,.14);
+    --sh-1:0 1px 2px rgba(0,0,0,.30);
+    --sh-2:0 12px 30px -16px rgba(0,0,0,.60);
+    --sh-3:0 28px 60px -22px rgba(0,0,0,.70);
+    color-scheme:dark;
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;overflow-x:hidden;
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--tx-hi);line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{margin:0;line-height:1.15;letter-spacing:-.02em;font-weight:800}
+p{margin:0}
+button,input,textarea{font:inherit;color:inherit}
+svg{width:18px;height:18px;flex:none}
+.mono{font-variant-numeric:tabular-nums;font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace}
+.wrap{width:min(100% - 28px,var(--maxw));margin-inline:auto}
+.sp{flex:1}
+
+/* ------------------------------- Cinta demo ------------------------------- */
+.cinta{background:linear-gradient(100deg,var(--brand-600),var(--brand-500));color:#fff}
+.cinta .wrap{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:12.5px;font-weight:600;letter-spacing:.01em}
+.cinta svg{width:15px;height:15px}
+.cinta b{font-weight:800}
+
+/* --------------------------------- Cabecera ------------------------------- */
+.top{position:sticky;top:0;z-index:40;background:var(--bg);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;padding:12px 0;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.03em;font-size:17px}
+.logo .mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--brand-400),var(--brand-600));box-shadow:0 8px 20px -10px var(--brand-glow)}
+.logo small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.14em;color:var(--tx-low);text-transform:uppercase}
+.segm{display:flex;gap:4px;padding:4px;background:var(--surface-3);border:1px solid var(--line);border-radius:var(--r-full)}
+.segm button{display:flex;align-items:center;gap:7px;padding:8px 14px;border:0;border-radius:var(--r-full);background:transparent;color:var(--tx-mid);font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s var(--ease)}
+.segm button:hover{color:var(--tx-hi)}
+.segm button[aria-selected="true"]{background:var(--surface);color:var(--tx-hi);box-shadow:var(--sh-1)}
+@media (prefers-color-scheme:dark){.segm button[aria-selected="true"]{background:var(--surface-2)}}
+
+/* ---------------------------------- Bloques -------------------------------- */
+main{padding:22px 0 46px}
+.vista{display:none}
+.vista.on{display:block;animation:sube .35s var(--ease)}
+@keyframes sube{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.intro{max-width:640px;margin:0 auto 20px;text-align:center}
+.intro h2{font-size:clamp(20px,4.4vw,27px)}
+.intro p{color:var(--tx-mid);font-size:14.5px;margin-top:7px}
+.eyebrow{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--brand-500);margin-bottom:8px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-1)}
+.card__hd{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.card__hd h3{font-size:15.5px}
+.card__hd p{font-size:12.5px;color:var(--tx-low);margin-top:3px;max-width:62ch}
+.card__bd{padding:16px 18px}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g2{grid-template-columns:1fr 1fr}
+.g21{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr)}
+
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--r-full);font-size:11.5px;font-weight:700;letter-spacing:.01em;background:var(--surface-3);border:1px solid var(--line);color:var(--tx-mid);white-space:nowrap}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.chip--ok{background:var(--ok-soft);border-color:transparent;color:var(--ok)}
+.chip--warn{background:var(--warn-soft);border-color:transparent;color:var(--warn)}
+.chip--danger{background:var(--danger-soft);border-color:transparent;color:var(--danger)}
+.chip--info{background:var(--info-soft);border-color:transparent;color:var(--info)}
+.chip--brand{background:var(--brand-soft);border-color:transparent;color:var(--brand-500)}
+@media (prefers-color-scheme:dark){.chip--brand{color:var(--brand-400)}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border-radius:var(--r-full);border:1px solid var(--line-strong);background:var(--surface-2);color:var(--tx-hi);font-size:14px;font-weight:700;cursor:pointer;transition:.22s var(--ease);text-align:center}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:none}
+.btn:focus-visible{outline:2px solid var(--brand-500);outline-offset:3px}
+.btn--brand{background:linear-gradient(135deg,var(--brand-400),var(--brand-600));border-color:transparent;color:#fff;box-shadow:0 10px 24px -14px var(--brand-glow)}
+.btn--ok{background:var(--ok);border-color:transparent;color:#fff}
+.btn--wa{background:var(--wa);border-color:transparent;color:#fff}
+.btn--ghost{background:transparent}
+.btn--sm{padding:7px 13px;font-size:12.5px}
+.btn--block{width:100%}
+.btn--grande{width:100%;padding:16px;font-size:16px;border-radius:var(--r-md)}
+.btn[disabled]{opacity:.5;pointer-events:none}
+
+.dato{display:flex;flex-direction:column;gap:2px}
+.dato span{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx-low)}
+.dato b{font-size:14.5px;font-weight:750}
+input[type=number],input[type=text]{width:100%;padding:9px 12px;border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--line-strong);font-size:14px;transition:.2s}
+input:focus{outline:none;border-color:var(--brand-500);box-shadow:0 0 0 3px var(--brand-soft)}
+
+/* ------------------------------ Vista alumno ------------------------------ */
+.fono{width:min(100%,392px);margin-inline:auto;background:var(--surface-2);border:1px solid var(--line-strong);border-radius:var(--r-xl);padding:10px;box-shadow:var(--sh-3)}
+.fono__in{background:var(--bg);border-radius:22px;overflow:hidden}
+.fono__barra{display:flex;align-items:center;gap:8px;padding:9px 16px 7px;font-size:11.5px;font-weight:700;color:var(--tx-low)}
+.fono__barra .pip{width:5px;height:5px;border-radius:50%;background:var(--tx-low);opacity:.5}
+.fono__app{padding:0 12px 16px;display:grid;gap:12px}
+.mini-top{display:flex;align-items:center;gap:9px;padding:10px 4px 2px}
+.mini-top .mark{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--brand-400),var(--brand-600))}
+.mini-top b{font-size:13.5px;font-weight:800;display:block;line-height:1.2}
+.mini-top small{font-size:10.5px;color:var(--tx-low);font-weight:600}
+
+.ficha{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px}
+.ficha h3{font-size:18px}
+.ficha .rut{font-size:12px;color:var(--tx-low);margin-top:2px}
+.plata{display:flex;justify-content:space-between;gap:10px;margin-top:14px}
+.plata div{min-width:0}
+.plata span{display:block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx-low)}
+.plata b{font-size:17px;font-weight:800;letter-spacing:-.02em}
+.plata .deuda b{color:var(--danger)}
+.plata .pagado b{color:var(--ok)}
+.barra{height:8px;border-radius:99px;background:var(--surface-3);overflow:hidden;margin-top:12px;border:1px solid var(--line)}
+.barra i{display:block;height:100%;background:linear-gradient(90deg,var(--brand-500),var(--brand-400));transition:width .7s var(--ease)}
+.barra-pie{display:flex;justify-content:space-between;font-size:11px;color:var(--tx-low);margin-top:6px;font-weight:600}
+
+.titulin{font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--tx-low);padding:2px 4px}
+.cuota{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm)}
+.cuota + .cuota{margin-top:7px}
+.cuota.pagada{border-left:3px solid var(--ok)}
+.cuota.atrasada{border-left:3px solid var(--danger)}
+.cuota.pendiente{border-left:3px solid var(--line-strong)}
+.cuota.revision{border-left:3px solid var(--warn)}
+.cuota b{font-size:13.5px;display:block}
+.cuota small{font-size:11.5px;color:var(--tx-low);display:block}
+.cuota .monto{margin-left:auto;text-align:right}
+.cuota .monto b{font-size:14px}
+
+.aviso{display:flex;gap:10px;padding:12px 13px;border-radius:var(--r-sm);font-size:12.5px;line-height:1.5}
+.aviso b{display:block;font-size:13px;margin-bottom:2px}
+.aviso--warn{background:var(--warn-soft);color:var(--warn)}
+.aviso--ok{background:var(--ok-soft);color:var(--ok)}
+.aviso--info{background:var(--info-soft);color:var(--info)}
+.aviso ul{margin:6px 0 0;padding-left:16px}
+
+.clase{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px;display:grid;gap:9px}
+.clase__hd{display:flex;align-items:center;gap:9px}
+.clase__hd b{font-size:14.5px}
+.clase__fila{display:flex;gap:8px;font-size:12.5px;color:var(--tx-mid);align-items:flex-start}
+.clase__fila svg{width:15px;height:15px;color:var(--tx-low);margin-top:2px}
+.cuenta{background:var(--surface);border:1px dashed var(--line-strong);border-radius:var(--r-md);padding:13px;font-size:12.5px;color:var(--tx-mid)}
+.cuenta b{display:block;font-size:12.5px;color:var(--tx-hi);margin-bottom:5px}
+
+/* ------------------------------ Vista escuela ----------------------------- */
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:15px 16px;box-shadow:var(--sh-1);min-width:0}
+.kpi span{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--tx-low)}
+.kpi span svg{width:14px;height:14px;color:var(--brand-500)}
+.kpi b{display:block;font-size:clamp(22px,3.2vw,29px);font-weight:900;letter-spacing:-.035em;margin-top:8px;transition:color .3s}
+.kpi small{font-size:11.5px;color:var(--tx-low);font-weight:600}
+.kpi.late b{color:var(--brand-500)}
+
+.recibo{display:grid;grid-template-columns:52px minmax(0,1fr);gap:13px;padding:15px 0;border-top:1px solid var(--line)}
+.recibo:first-child{border-top:0;padding-top:4px}
+.recibo__foto{height:66px;border-radius:var(--r-sm);background:var(--surface-3);border:1px solid var(--line);display:grid;place-items:center;color:var(--tx-low)}
+.recibo__cab{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.recibo__cab b{font-size:14.5px}
+.lectura{margin-top:10px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 12px}
+.lectura__t{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--tx-low);margin-bottom:9px}
+.lectura__t svg{width:14px;height:14px;color:var(--brand-500)}
+.lectura__g{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px}
+.nota{display:flex;gap:7px;align-items:flex-start;font-size:12px;margin-top:9px;line-height:1.45}
+.nota--warn{color:var(--warn)}
+.nota--low{color:var(--tx-low)}
+.nota svg{width:14px;height:14px;margin-top:2px}
+.acciones{display:flex;align-items:center;gap:9px;margin-top:12px;flex-wrap:wrap}
+.acciones label{display:flex;flex-direction:column;gap:3px;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--tx-low)}
+.acciones label input{width:132px}
+.vacio{text-align:center;padding:28px 12px;color:var(--tx-low);font-size:13px}
+.vacio b{display:block;font-size:14.5px;color:var(--tx-hi);margin-bottom:4px}
+
+.fila{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.3fr) minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.fila:first-child{border-top:0}
+.fila__n b{font-size:14px;display:block}
+.fila__n small{font-size:11.5px;color:var(--tx-low)}
+.fila__d{text-align:right}
+.fila__d b{font-size:14.5px;font-weight:800}
+.enc{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.3fr) minmax(0,1fr) auto;gap:12px;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--tx-low);padding-bottom:9px;border-bottom:1px solid var(--line)}
+.enc div:nth-child(3),.enc div:nth-child(4){text-align:right}
+
+.agenda{display:grid;grid-template-columns:1fr;gap:10px}
+.inst{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px}
+.inst__hd{display:flex;align-items:center;gap:9px;padding-bottom:9px;margin-bottom:9px;border-bottom:1px solid var(--line)}
+.inst__hd .av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:11.5px;font-weight:800;background:var(--brand-soft);color:var(--brand-500)}
+.inst__hd b{font-size:13px;display:block;line-height:1.2}
+.inst__hd small{font-size:11px;color:var(--tx-low)}
+.slot{display:flex;gap:10px;align-items:baseline;font-size:12.5px;padding:5px 0;min-width:0}
+.slot > span:last-child{min-width:0;overflow-wrap:anywhere}
+.slot b{font-weight:700}
+.slot .hh{font-weight:800;font-size:12px;min-width:40px;color:var(--brand-500);flex:none}
+.slot small{color:var(--tx-low);font-size:11.5px;display:inline;margin-left:6px}
+.slot.libre{opacity:.55}
+
+/* --------------------------------- Overlays -------------------------------- */
+.overlay{position:fixed;inset:0;z-index:80;background:rgba(6,9,14,.62);backdrop-filter:blur(3px);display:none;align-items:flex-end;justify-content:center;padding:0}
+.overlay.on{display:flex}
+@media (min-width:620px){.overlay{align-items:center;padding:24px}}
+.hoja{width:min(100%,430px);max-height:92vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:20px 20px 0 0;padding:18px;box-shadow:var(--sh-3);animation:asoma .3s var(--ease)}
+@media (min-width:620px){.hoja{border-radius:var(--r-lg)}}
+.hoja--ancha{width:min(100%,520px)}
+@keyframes asoma{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+.hoja__hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
+.hoja__hd h3{font-size:17px}
+.hoja__hd p{font-size:12.5px;color:var(--tx-low);margin-top:3px}
+.cerrar{margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--surface-2);display:grid;place-items:center;cursor:pointer;color:var(--tx-mid)}
+.opcion{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px;border-radius:var(--r-md);border:1px solid var(--line-strong);background:var(--surface-2);cursor:pointer;transition:.2s var(--ease)}
+.opcion + .opcion{margin-top:9px}
+.opcion:hover{border-color:var(--brand-500);transform:translateY(-1px)}
+.opcion .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand-500)}
+.opcion b{display:block;font-size:14px}
+.opcion small{font-size:11.5px;color:var(--tx-low)}
+.prog{height:7px;border-radius:99px;background:var(--surface-3);overflow:hidden;border:1px solid var(--line)}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand-500),var(--brand-400));transition:width .35s linear}
+.escaneo{display:flex;align-items:center;gap:11px;padding:13px;border-radius:var(--r-md);background:var(--surface-2);border:1px solid var(--line);margin-bottom:14px}
+.escaneo .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand-500)}
+.gira{animation:gira 1.1s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+.msg{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);padding:13px;font-size:13px;white-space:pre-wrap;line-height:1.55;max-height:220px;overflow:auto}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,26px);z-index:95;background:var(--tx-hi);color:var(--bg);padding:11px 18px;border-radius:var(--r-full);font-size:13px;font-weight:700;box-shadow:var(--sh-3);opacity:0;pointer-events:none;transition:.3s var(--ease);max-width:calc(100% - 28px);text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+footer{border-top:1px solid var(--line);padding:22px 0 30px;text-align:center;font-size:12.5px;color:var(--tx-low)}
+footer b{color:var(--tx-mid);font-weight:700}
+
+@media (max-width:980px){
+  .g4{grid-template-columns:1fr 1fr}
+  .g21{grid-template-columns:1fr}
+  .agenda{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .top .wrap{gap:10px}
+  .segm{width:100%}.segm button{flex:1;justify-content:center;padding:9px 6px;font-size:12.5px}
+  .card__hd,.card__bd{padding:14px}
+  .fila,.enc{grid-template-columns:minmax(0,1fr) auto}
+  .fila__c{display:none}
+  .enc div:nth-child(2),.enc div:nth-child(3){display:none}
+  .fila__b{grid-column:1 / -1}
+  .fila__b .btn{width:100%}
+  .recibo{grid-template-columns:40px minmax(0,1fr);gap:10px}
+  .recibo__foto{height:54px}
+  .acciones label input{width:110px}
+  .fono{padding:0;border:0;box-shadow:none;background:transparent}
+  .fono__in{border-radius:var(--r-lg);border:1px solid var(--line)}
+}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><defs>
+<g id="i-scan" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8V5a2 2 0 012-2h3M21 8V5a2 2 0 00-2-2h-3M3 16v3a2 2 0 002 2h3M21 16v3a2 2 0 01-2 2h-3"/><path d="M7 12h2l1.5-3 3 6L15 12h2"/></g>
+<g id="i-check" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></g>
+<g id="i-checkc" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.4 2.4 4.6-4.9"/></g>
+<g id="i-alert" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5L21 19.5H3z"/><path d="M12 9.5v4.2M12 16.6v.6"/></g>
+<g id="i-clock" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></g>
+<g id="i-cal" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></g>
+<g id="i-pin" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></g>
+<g id="i-car" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16v2.2a1 1 0 01-1 1h-1a1 1 0 01-1-1V11l2.4-5.2A2 2 0 016.7 4.6h10.6a2 2 0 011.8 1.2L21.5 11v7.2a1 1 0 01-1 1h-1a1 1 0 01-1-1V16"/><path d="M1.5 11h21M6 13.5h1.5M16.5 13.5H18M4.5 16h15"/></g>
+<g id="i-users" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M2.8 20a6.3 6.3 0 0112.4 0M16.5 4.8a3.4 3.4 0 010 6.4M17.5 20a6.2 6.2 0 00-1.6-4.2"/></g>
+<g id="i-money" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9v6M18 9v6"/></g>
+<g id="i-chart" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></g>
+<g id="i-down" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V6M6.5 11.5L12 6l5.5 5.5"/><path d="M4 20h16"/></g>
+<g id="i-doc" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h7l5 5v13H6z"/><path d="M13 3v5h5M9 13h6M9 16.5h6"/></g>
+<g id="i-foto" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10.5" r="1.8"/><path d="M3.5 17l5-4.5 4 3.5 3-2.5 5 4"/></g>
+<g id="i-wa" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.75-.86-2-.96-.27-.1-.47-.15-.66.15-.2.3-.76.95-.93 1.15-.17.2-.34.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.53.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.19-.24-.57-.48-.5-.66-.5h-.56c-.2 0-.52.07-.79.37-.27.3-1.03 1-1.03 2.45s1.06 2.84 1.2 3.04c.15.2 2.08 3.18 5.04 4.46.7.3 1.25.48 1.68.62.7.22 1.35.19 1.86.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2.4A9.6 9.6 0 003.7 16.83L2.4 21.6l4.9-1.28a9.6 9.6 0 104.74-17.92zm0 17.55a7.94 7.94 0 01-4.05-1.11l-.29-.17-3 .78.8-2.92-.19-.3a7.95 7.95 0 116.73 3.72z"/></g>
+<g id="i-x" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></g>
+<g id="i-copy" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="12" rx="2.2"/><path d="M15.5 6.5V5a2 2 0 00-2-2H6a2 2 0 00-2 2v8.5a2 2 0 002 2h1.5"/></g>
+<g id="i-key" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="4.2"/><path d="M12.2 12H21M17.5 12v3.2M20 12v2.2"/></g>
+<g id="i-logo" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18.5V7l4.2 5.6L11.4 7v11.5"/><path d="M14.6 18.5V7l5 11.5V7"/></g>
+</defs></svg>
+
+<div class="cinta">
+  <div class="wrap">
+    <svg viewBox="0 0 24 24"><use href="#i-alert"/></svg>
+    <span><b>Escuela Demo &middot; datos de ejemplo.</b> Alumnos, RUT, montos y clases son inventados: no corresponden a ninguna escuela real.</span>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <div class="logo">
+      <span class="mark"><svg viewBox="0 0 24 24"><use href="#i-logo"/></svg></span>
+      <span>MOVANORTE<small>Cuotas y cobranza</small></span>
+    </div>
+    <div class="sp"></div>
+    <div class="segm" id="pestanas" role="tablist">
+      <button role="tab" aria-selected="true" data-vista="alumno"><svg viewBox="0 0 24 24"><use href="#i-users"/></svg> El alumno</button>
+      <button role="tab" aria-selected="false" data-vista="escuela"><svg viewBox="0 0 24 24"><use href="#i-chart"/></svg> La escuela <span class="chip chip--brand" id="badge-pend">3</span></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============================ VISTA ALUMNO ============================ -->
+  <section class="vista on" data-vista="alumno">
+    <div class="intro">
+      <span class="eyebrow">Vista 1 &middot; en el teléfono del alumno</span>
+      <h2>Entra con su RUT, ve lo que debe y sube el comprobante</h2>
+      <p>Un solo enlace para toda la escuela. El alumno escribe su RUT, le llega un código de 4 dígitos al WhatsApp y entra. No hay usuarios ni claves que administrar.</p>
+    </div>
+
+    <div class="fono">
+      <div class="fono__in">
+        <div class="fono__barra"><span>10:24</span><div class="sp"></div><span class="pip"></span><span class="pip"></span><span class="pip"></span><span>4G</span><span>86%</span></div>
+        <div class="mini-top">
+          <span class="mark"><svg viewBox="0 0 24 24"><use href="#i-logo"/></svg></span>
+          <span><b>Escuela Demo de Conductores</b><small>Iquique &middot; mis cuotas</small></span>
+        </div>
+        <div class="fono__app" id="app-alumno"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ VISTA ESCUELA =========================== -->
+  <section class="vista" data-vista="escuela">
+    <div class="intro">
+      <span class="eyebrow">Vista 2 &middot; en el notebook del mostrador</span>
+      <h2>Toda la plata del mes en una pantalla</h2>
+      <p>Quien atiende el mostrador ve qué entró, qué falta y a quién hay que apurar. Los comprobantes que suben los alumnos no suman a la caja hasta que alguien de la escuela los aprueba.</p>
+    </div>
+
+    <div class="grid g4" id="kpis" style="margin-bottom:14px"></div>
+
+    <div class="grid g21">
+      <div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card__hd">
+            <div>
+              <h3>Comprobantes por revisar</h3>
+              <p>La IA lee la transferencia y muestra monto, fecha, número de operación y cuenta de destino. Compáralo con la cartola: al aprobar se aplica desde la cuota más antigua impaga; si no calza, se rechaza y nada se mueve.</p>
+            </div>
+            <div class="sp"></div>
+            <span class="chip chip--warn" id="chip-bandeja">0 en revisión</span>
+          </div>
+          <div class="card__bd" id="bandeja"></div>
+        </div>
+
+        <div class="card">
+          <div class="card__hd">
+            <div><h3>Alumnos con saldo</h3><p>Ordenados por lo que deben. El mensaje de cobro sale con el nombre, las cuotas vencidas y los datos de transferencia ya escritos.</p></div>
+          </div>
+          <div class="card__bd">
+            <div class="enc"><div>Alumno</div><div>Curso</div><div>Debe</div><div></div></div>
+            <div id="tabla-alumnos"></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="card__hd"><div><h3>Clases prácticas de hoy</h3><p>Viernes 25 de septiembre de 2026</p></div></div>
+          <div class="card__bd"><div class="agenda" id="agenda"></div></div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <div class="card__hd"><div><h3>Cómo entra cada alumno</h3></div></div>
+          <div class="card__bd" style="display:grid;gap:11px;font-size:13px;color:var(--tx-mid)">
+            <div class="clase__fila"><svg viewBox="0 0 24 24"><use href="#i-key"/></svg><span>Escribe su <b style="color:var(--tx-hi)">RUT</b> y recibe un código de 4 dígitos por WhatsApp. La sesión le dura 90 días.</span></div>
+            <div class="clase__fila"><svg viewBox="0 0 24 24"><use href="#i-users"/></svg><span>Ve <b style="color:var(--tx-hi)">solo sus cuotas</b>. La bandeja, la cobranza y la caja quedan para los perfiles de la escuela.</span></div>
+            <div class="clase__fila"><svg viewBox="0 0 24 24"><use href="#i-money"/></svg><span>Los pagos <b style="color:var(--tx-hi)">en efectivo</b> los registra la escuela a mano y se reparten con la misma regla.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Movanorte &middot; movanorte.cl &middot; Demo con datos de ejemplo</div>
+</footer>
+
+<!-- ------------------------------- Overlays -------------------------------- -->
+<div class="overlay" id="ov-subir"><div class="hoja" id="hoja-subir"></div></div>
+<div class="overlay" id="ov-cobro"><div class="hoja hoja--ancha" id="hoja-cobro"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+/* ==========================================================================
+   Demo de venta — cuotas y cobranza para escuelas de conductores.
+   Todo el estado vive en memoria: no hay servidor, no se envía nada.
+   Datos 100% ficticios.
+   ========================================================================== */
+
+var HOY = new Date(2026, 8, 25);              /* viernes 25-09-2026 */
+var ESCUELA = {
+  nombre: "Escuela Demo de Conductores",
+  banco: "BancoEstado",
+  tipo: "Cuenta Corriente",
+  numero: "021-7-004539-8",
+  titular: "Escuela Demo de Conductores SpA",
+  rut: "77.145.882-3",
+  link: "https://cuotas.escuelademo.cl"
+};
+
+/* --------------------------------- Alumnos -------------------------------- */
+function cuotas(montos, fechas){
+  return montos.map(function(m, i){ return { n:i+1, monto:m, abonado:0, vence:fechas[i] }; });
+}
+var F4 = ["2026-09-05","2026-09-20","2026-10-05","2026-10-20"];
+var F5 = ["2026-09-05","2026-09-20","2026-10-05","2026-10-20","2026-10-30"];
+
+var alumnos = [
+  { id:1, nombre:"Camila Ortega Fuentes", rut:"19.482.307-4", tel:"+56 9 8412 7730",
+    curso:"Licencia Clase B", clases:"Clase 6 de 12",
+    cuotas:cuotas([85000,85000,85000,85000], F4), pagadas:1 },
+  { id:2, nombre:"Néstor Bugueño Villalobos", rut:"17.209.845-6", tel:"+56 9 7331 5092",
+    curso:"Licencia Clase B", clases:"Clase 4 de 12",
+    cuotas:cuotas([90000,90000,90000,90000], F4), pagadas:1 },
+  { id:3, nombre:"Fernanda Mansilla Torres", rut:"20.118.673-2", tel:"+56 9 6120 4488",
+    curso:"Licencia Clase B", clases:"Examen interno",
+    cuotas:cuotas([59000,59000,59000,59000,59000], F5), pagadas:2 },
+  { id:4, nombre:"Ignacio Aguirre Peña", rut:"16.884.512-9", tel:"+56 9 9045 1163",
+    curso:"Licencia Clase A2 profesional", clases:"Clase 5 de 16",
+    cuotas:cuotas([124000,124000,124000,124000,124000], F5), pagadas:1 },
+  { id:5, nombre:"Valentina Rojas Cáceres", rut:"21.037.994-1", tel:"+56 9 5578 2214",
+    curso:"Licencia Clase B", clases:"Clase 9 de 12",
+    cuotas:cuotas([80000,80000,80000,80000], F4), pagadas:2 },
+  { id:6, nombre:"Óscar Tapia Mamani", rut:"15.663.208-7", tel:"+56 9 8890 3475",
+    curso:"Licencia Clase B", clases:"Clase 2 de 12",
+    cuotas:cuotas([70000,70000,70000,70000], F4), pagadas:0 },
+  { id:7, nombre:"Javiera Soto Bórquez", rut:"20.554.176-5", tel:"+56 9 4462 8801",
+    curso:"Licencia Clase B", clases:"Clase 3 de 12",
+    cuotas:cuotas([80000,80000,80000,80000,80000], F5), pagadas:2 }
+];
+alumnos.forEach(function(a){ for (var i = 0; i < a.pagadas; i++) a.cuotas[i].abonado = a.cuotas[i].monto; });
+
+var YO = alumnos[0];                          /* el alumno de la vista 1 */
+YO.aprobados = [];
+
+/* ----------------------------- Comprobantes ------------------------------- */
+var seq = 100;
+var bandeja = [
+  { id:++seq, alumno:2, declarado:150000, hace:"hace 2 horas", archivo:"foto",
+    lectura:{ monto:120000, fecha:"23-09-2026", operacion:"88305714",
+              banco:"Santander · Cta. Corriente ****2098", glosa:"TRANSF CURSO CONDUCIR" } },
+  { id:++seq, alumno:3, declarado:59000, hace:"ayer", archivo:"pdf",
+    lectura:{ monto:59000, fecha:"24-09-2026", operacion:"11904562",
+              banco:"BancoEstado · Cta. Corriente ****4539", glosa:"CUOTA 3 FERNANDA M" } },
+  { id:++seq, alumno:4, declarado:124000, hace:"ayer", archivo:"foto",
+    lectura:{ monto:124000, fecha:"24-09-2026", operacion:"40772183",
+              banco:"Banco de Chile · Cta. Vista ****7731", glosa:"ABONO LICENCIA A2" } }
+];
+
+/* --------------------------------- Caja ----------------------------------- */
+var caja = { activos:68, recaudado:7140000, porCobrar:4325000, mora:1720000 };
+
+/* -------------------------------- Agenda ---------------------------------- */
+var agenda = [
+  { inst:"Rodrigo Pizarro", auto:"Suzuki Swift · JKLF-42", slots:[
+    { h:"08:00", q:"Camila Ortega", d:"Clase 6 de 12 · circuito urbano" },
+    { h:"09:30", q:"Valentina Rojas", d:"Clase 9 de 12 · estacionamiento" },
+    { h:"11:00", q:null, d:"Hora libre" },
+    { h:"15:00", q:"Javiera Soto", d:"Clase 3 de 12 · pista interna" } ] },
+  { inst:"Marisol Cortés", auto:"Kia Rio · HXPR-08", slots:[
+    { h:"08:30", q:"Néstor Bugueño", d:"Clase 4 de 12 · pista interna" },
+    { h:"10:00", q:"Fernanda Mansilla", d:"Examen interno" },
+    { h:"12:00", q:"Óscar Tapia", d:"Clase 2 de 12 · pista interna" },
+    { h:"16:30", q:null, d:"Hora libre" } ] },
+  { inst:"Héctor Ñanco", auto:"Hyundai H100 · GTVS-71", slots:[
+    { h:"09:00", q:"Ignacio Aguirre", d:"Clase 5 de 16 · ruta A-16" },
+    { h:"11:30", q:"Matías Cheuquel", d:"Clase 8 de 16 · ruta A-16" },
+    { h:"15:30", q:"Paulina Iturra", d:"Clase 1 de 16 · pista interna" } ] }
+];
+
+/* ------------------------------- Utilidades ------------------------------- */
+var MES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto",
+           "septiembre","octubre","noviembre","diciembre"];
+function pesos(n){ return "$" + Math.round(n).toLocaleString("es-CL"); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function aFecha(iso){ var p = iso.split("-"); return new Date(+p[0], +p[1]-1, +p[2]); }
+function fLarga(iso){ var d = aFecha(iso); return d.getDate() + " de " + MES[d.getMonth()]; }
+function fCorta(iso){ var p = iso.split("-"); return p[2] + "-" + p[1]; }
+function vencida(c){ return aFecha(c.vence) < HOY; }
+function pila(a){ return a.nombre.split(" ")[0]; }
+function buscar(id){ return alumnos.filter(function(a){ return a.id === id; })[0]; }
+function comprobanteDe(id){ return bandeja.filter(function(d){ return d.alumno === id; })[0] || null; }
+
+function estadoCuota(a, c){
+  if (c.abonado >= c.monto) return "pagada";
+  var comp = comprobanteDe(a.id);
+  if (comp && primeraImpaga(a) === c) return "revision";
+  return vencida(c) ? "atrasada" : "pendiente";
+}
+function primeraImpaga(a){
+  return a.cuotas.filter(function(c){ return c.abonado < c.monto; })[0] || null;
+}
+function totales(a){
+  var t = 0, p = 0, deudaVencida = 0;
+  a.cuotas.forEach(function(c){
+    t += c.monto; p += c.abonado;
+    if (vencida(c) && c.abonado < c.monto) deudaVencida += c.monto - c.abonado;
+  });
+  return { total:t, pagado:p, deuda:t - p, deudaVencida:deudaVencida };
+}
+/* Reparte un monto desde la cuota más antigua impaga — la misma regla del panel real */
+function repartir(a, monto){
+  var resto = monto, plan = [], vencido = 0;
+  a.cuotas.forEach(function(c){
+    if (resto <= 0 || c.abonado >= c.monto) return;
+    var falta = c.monto - c.abonado, pone = Math.min(falta, resto);
+    resto -= pone;
+    plan.push({ n:c.n, pone:pone, completa:pone === falta, cuota:c });
+    if (vencida(c)) vencido += pone;
+  });
+  return { plan:plan, sobrante:resto, vencido:vencido };
+}
+function planTexto(r){
+  if (!r.plan.length) return "no queda nada por cubrir";
+  var t = r.plan.map(function(x){
+    return "cuota " + x.n + (x.completa ? "" : " (parcial)");
+  }).join(", ");
+  return t + (r.sobrante > 0 ? " y quedan " + pesos(r.sobrante) + " a favor" : "");
+}
+function aplicar(a, monto){
+  var r = repartir(a, monto);
+  r.plan.forEach(function(x){ x.cuota.abonado += x.pone; });
+  return r;
+}
+function toast(txt){
+  var t = document.getElementById("toast");
+  t.textContent = txt; t.classList.add("on");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function(){ t.classList.remove("on"); }, 2600);
+}
+function ic(id, extra){ return '<svg viewBox="0 0 24 24"' + (extra || "") + '><use href="#' + id + '"/></svg>'; }
+
+/* ========================== VISTA 1 · EL ALUMNO ========================== */
+var SELLO = {
+  pagada:   ['chip--ok',     'Pagada'],
+  atrasada: ['chip--danger', 'Atrasada'],
+  revision: ['chip--warn',   'En revisión'],
+  pendiente:['',             'Por pagar']
+};
+
+function pintarAlumno(){
+  var a = YO, t = totales(a), comp = comprobanteDe(a.id);
+  var avance = Math.round(t.pagado / t.total * 100);
+  var h = "";
+
+  h += '<div class="ficha">' +
+    '<span class="chip chip--brand">' + esc(a.curso) + '</span>' +
+    '<h3 style="margin-top:9px">' + esc(a.nombre) + '</h3>' +
+    '<div class="rut">RUT ' + esc(a.rut) + ' · ' + esc(a.clases) + '</div>' +
+    '<div class="plata">' +
+      '<div><span>Curso</span><b>' + pesos(t.total) + '</b></div>' +
+      '<div class="pagado"><span>Pagado</span><b>' + pesos(t.pagado) + '</b></div>' +
+      '<div class="deuda" style="text-align:right"><span>Te falta</span><b>' + pesos(t.deuda) + '</b></div>' +
+    '</div>' +
+    '<div class="barra"><i style="width:' + avance + '%"></i></div>' +
+    '<div class="barra-pie"><span>' + avance + '% del curso pagado</span><span>' +
+      a.cuotas.filter(function(c){ return c.abonado >= c.monto; }).length + ' de ' + a.cuotas.length + ' cuotas</span></div>' +
+  '</div>';
+
+  if (a.aprobados.length){
+    var ult = a.aprobados[a.aprobados.length - 1];
+    h += '<div class="aviso aviso--ok">' + ic("i-checkc") + '<div><b>Pago confirmado por la escuela</b>' +
+      pesos(ult.monto) + ' aplicados a ' + esc(ult.detalle) + '. Ya se ve en tu saldo.</div></div>';
+  }
+  if (comp){
+    h += '<div class="aviso aviso--warn">' + ic("i-clock") + '<div><b>Comprobante en revisión</b>' +
+      pesos(comp.declarado) + ' del ' + esc(comp.lectura.fecha) + ' · operación ' + esc(comp.lectura.operacion) +
+      '. La escuela lo va a confirmar; hasta entonces tu saldo no cambia.</div></div>';
+  }
+
+  h += '<div class="titulin">Mis cuotas</div><div>';
+  a.cuotas.forEach(function(c){
+    var e = estadoCuota(a, c), s = SELLO[e];
+    var pie = e === "pagada"   ? "Pagada el " + fLarga(c.vence)
+            : e === "revision" ? "Esperando que la escuela confirme"
+            : e === "atrasada" ? "Venció el " + fLarga(c.vence)
+            :                    "Vence el " + fLarga(c.vence);
+    h += '<div class="cuota ' + e + '">' +
+      '<div><b>Cuota ' + c.n + ' de ' + a.cuotas.length + '</b><small>' + pie + '</small></div>' +
+      '<div class="monto"><b>' + pesos(c.monto) + '</b><span class="chip ' + s[0] + '">' + s[1] + '</span></div>' +
+    '</div>';
+  });
+  h += '</div>';
+
+  h += t.deuda > 0
+    ? '<button class="btn btn--brand btn--grande" id="btn-subir">' + ic("i-down") + ' Subir comprobante</button>'
+    : '<div class="aviso aviso--ok">' + ic("i-checkc") + '<div><b>Curso pagado al día</b>No tienes cuotas pendientes.</div></div>';
+
+  h += '<div class="cuenta"><b>Cuenta de la escuela</b>' +
+    ESCUELA.banco + ' · ' + ESCUELA.tipo + ' ' + ESCUELA.numero + '<br>' +
+    ESCUELA.titular + ' · RUT ' + ESCUELA.rut + '</div>';
+
+  h += '<div class="titulin" style="margin-top:4px">Mi próxima clase práctica</div>' +
+    '<div class="clase">' +
+      '<div class="clase__hd">' + ic("i-cal", ' style="color:var(--brand-500)"') +
+        '<b>Sábado 27 de septiembre · 10:30</b></div>' +
+      '<div class="clase__fila">' + ic("i-users") + '<span>Instructor Rodrigo Pizarro · clase 7 de 12</span></div>' +
+      '<div class="clase__fila">' + ic("i-car") + '<span>Suzuki Swift · patente JKLF-42</span></div>' +
+      '<div class="clase__fila">' + ic("i-pin") + '<span>Av. Salvador Allende 3520, Iquique. Llega 10 minutos antes con tu cédula.</span></div>' +
+    '</div>';
+
+  document.getElementById("app-alumno").innerHTML = h;
+  var b = document.getElementById("btn-subir");
+  if (b) b.addEventListener("click", abrirSubida);
+}
+
+/* ------------------------ Flujo: subir comprobante ------------------------ */
+var subida = { paso:"elegir", archivo:"", monto:85000 };
+var LECTURA_DEMO = {
+  monto:85000, fecha:"25-09-2026", operacion:"71930248",
+  banco:"BancoEstado · Cta. Corriente 021-7-004539-8", glosa:"CUOTA CAMILA ORTEGA"
+};
+
+function abrirSubida(){
+  subida.paso = "elegir";
+  document.getElementById("ov-subir").classList.add("on");
+  pintarSubida();
+}
+function cerrarSubida(){ document.getElementById("ov-subir").classList.remove("on"); }
+
+function pintarSubida(){
+  var h = '<div class="hoja__hd"><div><h3>Subir comprobante</h3>' +
+    '<p>Cuota 2 de 4 · ' + pesos(85000) + ' · venció el 20 de septiembre</p></div>' +
+    '<button class="cerrar" data-cerrar="subir">' + ic("i-x") + '</button></div>';
+
+  if (subida.paso === "elegir"){
+    h += '<button class="opcion" data-archivo="foto"><span class="ic">' + ic("i-foto") + '</span>' +
+        '<span><b>Foto del comprobante</b><small>La que te muestra la app del banco</small></span></button>' +
+      '<button class="opcion" data-archivo="pdf"><span class="ic">' + ic("i-doc") + '</span>' +
+        '<span><b>PDF del banco</b><small>El comprobante que llega por correo</small></span></button>' +
+      '<p class="nota nota--low" style="margin-top:13px">' + ic("i-alert") +
+        '<span>En esta demo no se sube ningún archivo: al elegir una opción se simula la lectura.</span></p>';
+  }
+
+  if (subida.paso === "leyendo"){
+    h += '<div class="escaneo"><span class="ic">' + ic("i-scan", ' class="gira"') + '</span>' +
+        '<div><b style="font-size:13.5px;display:block">' + esc(subida.archivo) + '</b>' +
+        '<small id="paso-txt" style="font-size:12px;color:var(--tx-low)">Subiendo el archivo…</small></div></div>' +
+      '<div class="prog"><i id="prog-i"></i></div>' +
+      '<p class="nota nota--low" style="margin-top:11px">' + ic("i-scan") +
+        '<span>Leyendo el comprobante con IA: monto, fecha, número de operación y cuenta de destino.</span></p>';
+  }
+
+  if (subida.paso === "leido"){
+    var r = repartir(YO, subida.monto);
+    h += '<div class="escaneo"><span class="ic">' + ic("i-checkc") + '</span>' +
+        '<div><b style="font-size:13.5px;display:block">Comprobante leído</b>' +
+        '<small style="font-size:12px;color:var(--tx-low)">' + esc(subida.archivo) + '</small></div></div>' +
+      '<div class="lectura"><div class="lectura__t">' + ic("i-scan") + ' Lo que dice el comprobante</div>' +
+        '<div class="lectura__g">' +
+          '<div class="dato"><span>Monto</span><b class="mono">' + pesos(LECTURA_DEMO.monto) + '</b></div>' +
+          '<div class="dato"><span>Fecha</span><b class="mono">' + LECTURA_DEMO.fecha + '</b></div>' +
+          '<div class="dato"><span>N° de operación</span><b class="mono">' + LECTURA_DEMO.operacion + '</b></div>' +
+          '<div class="dato" style="grid-column:1/-1"><span>Banco de destino</span><b>' + LECTURA_DEMO.banco + '</b></div>' +
+          '<div class="dato" style="grid-column:1/-1"><span>Glosa</span><b>' + LECTURA_DEMO.glosa + '</b></div>' +
+        '</div></div>' +
+      '<div class="acciones"><label>Monto que declaro<input type="number" step="1000" id="in-monto" value="' + subida.monto + '"></label>' +
+        '<span class="nota nota--low" style="margin:0">' + ic("i-checkc") +
+        '<span>Cubre ' + esc(planTexto(r)) + '</span></span></div>' +
+      '<button class="btn btn--brand btn--block" id="btn-enviar" style="margin-top:14px">Enviar a revisión</button>' +
+      '<button class="btn btn--ghost btn--block" data-cerrar="subir" style="margin-top:8px">Cancelar</button>';
+  }
+
+  if (subida.paso === "listo"){
+    h += '<div class="aviso aviso--warn" style="margin-bottom:12px">' + ic("i-clock") +
+        '<div><b>Quedó en revisión</b>La escuela lo compara con su cartola y lo confirma. Mientras tanto tu saldo no cambia, para que nadie sume un pago que no llegó.</div></div>' +
+      '<p class="nota nota--low">' + ic("i-wa") + '<span>Al confirmarlo te llega un aviso por WhatsApp con las cuotas que quedaron cubiertas.</span></p>' +
+      '<button class="btn btn--brand btn--block" data-cerrar="subir" style="margin-top:14px">Entendido</button>';
+  }
+
+  document.getElementById("hoja-subir").innerHTML = h;
+
+  if (subida.paso === "leyendo") animarLectura();
+  var env = document.getElementById("btn-enviar");
+  if (env) env.addEventListener("click", enviarARevision);
+  var inm = document.getElementById("in-monto");
+  if (inm) inm.addEventListener("input", function(){
+    subida.monto = Math.max(0, +inm.value || 0);
+  });
+}
+
+function animarLectura(){
+  var pasos = [[12,"Subiendo el archivo…"],[45,"Leyendo el comprobante con IA…"],
+               [78,"Contrastando con tus cuotas…"],[100,"Listo"]];
+  var i = 0;
+  (function paso(){
+    if (subida.paso !== "leyendo") return;
+    var barra = document.getElementById("prog-i"), txt = document.getElementById("paso-txt");
+    if (!barra) return;
+    barra.style.width = pasos[i][0] + "%";
+    txt.textContent = pasos[i][1];
+    i++;
+    if (i < pasos.length) setTimeout(paso, 620);
+    else setTimeout(function(){
+      if (subida.paso !== "leyendo") return;
+      subida.paso = "leido"; subida.monto = LECTURA_DEMO.monto; pintarSubida();
+    }, 520);
+  })();
+}
+
+function enviarARevision(){
+  bandeja.push({ id:++seq, alumno:YO.id, declarado:subida.monto, hace:"recién", archivo:subida.archivo.indexOf(".pdf") > -1 ? "pdf" : "foto",
+    lectura:{ monto:LECTURA_DEMO.monto, fecha:LECTURA_DEMO.fecha, operacion:LECTURA_DEMO.operacion,
+              banco:LECTURA_DEMO.banco, glosa:LECTURA_DEMO.glosa } });
+  subida.paso = "listo";
+  pintarSubida(); pintarAlumno(); pintarEscuela();
+  toast("Comprobante enviado · míralo en la vista de la escuela");
+}
+
+/* ========================== VISTA 2 · LA ESCUELA ========================== */
+function pintarEscuela(){ pintarKpis(); pintarBandeja(); pintarTabla(); pintarAgenda(); }
+
+function pintarKpis(){
+  var moro = caja.mora / (caja.recaudado + caja.porCobrar) * 100;
+  var k = [
+    ["i-users", "Alumnos activos", caja.activos, "cursos en marcha este mes"],
+    ["i-money", "Recaudado en septiembre", pesos(caja.recaudado), "transferencias y efectivo aprobados"],
+    ["i-chart", "Por cobrar", pesos(caja.porCobrar), "cuotas comprometidas sin pagar"],
+    ["i-alert", "Morosidad", moro.toFixed(1).replace(".", ",") + "%", pesos(caja.mora) + " con la fecha vencida"]
+  ];
+  document.getElementById("kpis").innerHTML = k.map(function(x){
+    return '<div class="kpi"><span>' + ic(x[0]) + x[1] + '</span><b>' + x[2] + '</b><small>' + x[3] + '</small></div>';
+  }).join("");
+}
+function latirKpis(){
+  var n = document.querySelectorAll("#kpis .kpi");
+  for (var i = 0; i < n.length; i++) n[i].classList.add("late");
+  setTimeout(function(){
+    var m = document.querySelectorAll("#kpis .kpi");
+    for (var j = 0; j < m.length; j++) m[j].classList.remove("late");
+  }, 900);
+}
+
+function pintarBandeja(){
+  var cont = document.getElementById("bandeja");
+  document.getElementById("chip-bandeja").textContent = bandeja.length + " en revisión";
+  var badge = document.getElementById("badge-pend");
+  badge.textContent = bandeja.length;
+  badge.style.display = bandeja.length ? "" : "none";
+
+  if (!bandeja.length){
+    cont.innerHTML = '<div class="vacio"><b>Bandeja al día</b>No queda ningún comprobante esperando confirmación.</div>';
+    return;
+  }
+  cont.innerHTML = bandeja.map(function(d){
+    var a = buscar(d.alumno), r = repartir(a, d.lectura.monto || d.declarado);
+    var distinto = d.lectura.monto && d.lectura.monto !== d.declarado;
+    return '<div class="recibo">' +
+      '<div class="recibo__foto">' + ic(d.archivo === "pdf" ? "i-doc" : "i-foto") + '</div>' +
+      '<div><div class="recibo__cab"><b>' + esc(a.nombre) + '</b>' +
+          '<span class="chip">' + esc(a.curso) + '</span>' +
+          '<span class="chip chip--warn"><span class="dot"></span>En revisión</span>' +
+          '<span class="chip">' + d.hace + '</span></div>' +
+        '<p style="font-size:12.5px;color:var(--tx-low);margin-top:4px">Declaró ' + pesos(d.declarado) +
+          ' · todavía no suma a la caja</p>' +
+        '<div class="lectura"><div class="lectura__t">' + ic("i-scan") + ' Lo que leyó la IA en el comprobante</div>' +
+          '<div class="lectura__g">' +
+            '<div class="dato"><span>Monto</span><b class="mono">' + pesos(d.lectura.monto) + '</b></div>' +
+            '<div class="dato"><span>Fecha</span><b class="mono">' + esc(d.lectura.fecha) + '</b></div>' +
+            '<div class="dato"><span>N° de operación</span><b class="mono">' + esc(d.lectura.operacion) + '</b></div>' +
+            '<div class="dato"><span>Banco de destino</span><b>' + esc(d.lectura.banco) + '</b></div>' +
+            '<div class="dato" style="grid-column:1/-1"><span>Glosa</span><b>' + esc(d.lectura.glosa) + '</b></div>' +
+          '</div></div>' +
+        (distinto
+          ? '<p class="nota nota--warn">' + ic("i-alert") + '<span>Declaró ' + pesos(d.declarado) +
+            ' pero el comprobante dice ' + pesos(d.lectura.monto) + '. Revisa la cartola y corrige el monto antes de aprobar.</span></p>'
+          : '<p class="nota nota--low">' + ic("i-checkc") + '<span>El monto declarado calza con el comprobante.</span></p>') +
+        '<p class="nota nota--low">' + ic("i-check") + '<span>Si lo apruebas cubre ' + esc(planTexto(r)) + '.</span></p>' +
+        '<div class="acciones">' +
+          '<label>Monto a aprobar<input type="number" step="1000" id="monto-' + d.id + '" value="' + (d.lectura.monto || d.declarado) + '"></label>' +
+          '<button class="btn btn--ok btn--sm" data-aprobar="' + d.id + '">' + ic("i-check") + ' Aprobar</button>' +
+          '<button class="btn btn--ghost btn--sm" data-rechazar="' + d.id + '">Rechazar</button>' +
+        '</div>' +
+      '</div></div>';
+  }).join("");
+}
+
+function pintarTabla(){
+  var lista = alumnos.filter(function(a){ return totales(a).deuda > 0; })
+    .sort(function(x, y){ return totales(y).deuda - totales(x).deuda; });
+  document.getElementById("tabla-alumnos").innerHTML = lista.map(function(a){
+    var t = totales(a);
+    var vencidas = a.cuotas.filter(function(c){ return vencida(c) && c.abonado < c.monto; }).length;
+    var chip = vencidas
+      ? '<span class="chip chip--danger">' + vencidas + (vencidas > 1 ? ' cuotas vencidas' : ' cuota vencida') + '</span>'
+      : '<span class="chip chip--ok">Al día</span>';
+    return '<div class="fila">' +
+      '<div class="fila__n"><b>' + esc(a.nombre) + '</b><small>' + esc(a.rut) + ' · ' + esc(a.tel) + '</small>' +
+        '<div style="margin-top:5px">' + chip + '</div></div>' +
+      '<div class="fila__c" style="font-size:13px;color:var(--tx-mid)">' + esc(a.curso) + '<br>' +
+        '<small style="color:var(--tx-low)">' + pesos(t.total) + ' en ' + a.cuotas.length + ' cuotas</small></div>' +
+      '<div class="fila__d fila__c"><b>' + pesos(t.deuda) + '</b><br>' +
+        '<small style="color:var(--tx-low)">' + pesos(t.pagado) + ' pagado</small></div>' +
+      '<div class="fila__b"><button class="btn btn--wa btn--sm" data-cobrar="' + a.id + '">' +
+        ic("i-wa") + ' Cobrar por WhatsApp</button></div>' +
+    '</div>';
+  }).join("");
+}
+
+function pintarAgenda(){
+  document.getElementById("agenda").innerHTML = agenda.map(function(i){
+    var ini = i.inst.split(" ").map(function(p){ return p[0]; }).join("");
+    return '<div class="inst"><div class="inst__hd"><span class="av">' + ini + '</span>' +
+      '<span><b>' + esc(i.inst) + '</b><small>' + esc(i.auto) + '</small></span></div>' +
+      i.slots.map(function(s){
+        return '<div class="slot' + (s.q ? '' : ' libre') + '"><span class="hh">' + s.h + '</span>' +
+          '<span>' + (s.q ? '<b>' + esc(s.q) + '</b>' : 'Sin agendar') +
+          '<small>' + esc(s.d) + '</small></span></div>';
+      }).join("") + '</div>';
+  }).join("");
+}
+
+/* --------------------------- Aprobar / rechazar --------------------------- */
+function aprobar(id){
+  var d = bandeja.filter(function(x){ return x.id === id; })[0];
+  if (!d) return;
+  var campo = document.getElementById("monto-" + d.id);
+  var monto = Math.max(0, +(campo && campo.value) || 0);
+  if (!monto) { toast("Escribe el monto que vas a aprobar"); return; }
+  var a = buscar(d.alumno);
+  var r = aplicar(a, monto);
+
+  caja.recaudado += monto;
+  caja.porCobrar = Math.max(0, caja.porCobrar - monto);
+  caja.mora = Math.max(0, caja.mora - r.vencido);
+  bandeja = bandeja.filter(function(x){ return x.id !== id; });
+  if (a === YO) a.aprobados.push({ monto:monto, detalle:planTexto(r) });
+
+  pintarEscuela(); pintarAlumno(); latirKpis();
+  toast(pesos(monto) + " de " + pila(a) + " aplicados a " + planTexto(r));
+}
+function rechazar(id){
+  var d = bandeja.filter(function(x){ return x.id === id; })[0];
+  if (!d) return;
+  bandeja = bandeja.filter(function(x){ return x.id !== id; });
+  pintarEscuela(); pintarAlumno();
+  toast("Rechazado: no se movió ninguna cuota de " + pila(buscar(d.alumno)));
+}
+
+/* -------------------------------- Cobranza -------------------------------- */
+function mensajeCobro(a){
+  var t = totales(a);
+  var venc = a.cuotas.filter(function(c){ return vencida(c) && c.abonado < c.monto; });
+  var nums = venc.map(function(c){ return c.n; });
+  var listado = nums.length > 1 ? "las cuotas " + nums.slice(0, -1).join(", ") + " y " + nums[nums.length - 1]
+              : nums.length === 1 ? "la cuota " + nums[0] : "las próximas cuotas";
+  var fechas = venc.map(function(c){ return fCorta(c.vence); }).join(" y el ");
+  return "Hola " + pila(a) + ", te escribo de la " + ESCUELA.nombre + ".\n\n" +
+    "Según nuestro registro tienes pendiente " + listado + " de tu curso de " + a.curso +
+    ", que suman " + pesos(t.deudaVencida || t.deuda) +
+    (fechas ? " y vencieron el " + fechas : "") + ".\n\n" +
+    "Datos para transferir:\n" + ESCUELA.banco + " · " + ESCUELA.tipo + " " + ESCUELA.numero + "\n" +
+    ESCUELA.titular + " · RUT " + ESCUELA.rut + "\n\n" +
+    "Cuando transfieras, sube el comprobante en el panel con tu RUT y queda registrado al tiro:\n" + ESCUELA.link +
+    "\n\nSi necesitas reprogramar alguna cuota, avísame y lo vemos. Gracias.";
+}
+function abrirCobro(id){
+  var a = buscar(id), t = totales(a);
+  document.getElementById("hoja-cobro").innerHTML =
+    '<div class="hoja__hd"><div><h3>Cobrar a ' + esc(pila(a)) + '</h3>' +
+      '<p>' + esc(a.nombre) + ' · ' + esc(a.tel) + '</p></div>' +
+      '<button class="cerrar" data-cerrar="cobro">' + ic("i-x") + '</button></div>' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">' +
+      '<span class="chip chip--danger">Debe ' + pesos(t.deuda) + '</span>' +
+      '<span class="chip chip--warn">' + pesos(t.deudaVencida) + ' con fecha vencida</span>' +
+      '<span class="chip">' + esc(a.curso) + '</span></div>' +
+    '<div class="msg" id="msg-cobro">' + esc(mensajeCobro(a)) + '</div>' +
+    '<div class="acciones" style="margin-top:13px">' +
+      '<button class="btn btn--brand btn--sm" id="btn-copiar">' + ic("i-copy") + ' Copiar mensaje</button>' +
+      '<button class="btn btn--wa btn--sm" disabled>' + ic("i-wa") + ' Enviar por WhatsApp</button></div>' +
+    '<p class="nota nota--low" style="margin-top:11px">' + ic("i-alert") +
+      '<span>En la demo el envío está desactivado a propósito. En el panel real el botón abre WhatsApp con el mensaje escrito, o lo manda solo según la regla que defina la escuela.</span></p>';
+  document.getElementById("ov-cobro").classList.add("on");
+  document.getElementById("btn-copiar").addEventListener("click", function(){
+    var txt = mensajeCobro(a);
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(function(){ toast("Mensaje copiado"); },
+      function(){ toast("Copia el texto a mano"); });
+    else toast("Copia el texto a mano");
+  });
+}
+
+/* --------------------------------- Pestañas -------------------------------- */
+function irA(v){
+  var bs = document.querySelectorAll("#pestanas button");
+  for (var i = 0; i < bs.length; i++) bs[i].setAttribute("aria-selected", String(bs[i].dataset.vista === v));
+  var vs = document.querySelectorAll("main .vista");
+  for (var j = 0; j < vs.length; j++) vs[j].classList.toggle("on", vs[j].dataset.vista === v);
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+/* ---------------------------------- Eventos -------------------------------- */
+document.addEventListener("click", function(ev){
+  var t = ev.target.closest ? ev.target.closest("[data-vista],[data-archivo],[data-cerrar],[data-aprobar],[data-rechazar],[data-cobrar]") : null;
+  if (!t) return;
+  var d = t.dataset;
+  if (d.vista)   return irA(d.vista);
+  if (d.cerrar){ document.getElementById("ov-" + d.cerrar).classList.remove("on"); return; }
+  if (d.archivo){
+    subida.archivo = d.archivo === "pdf" ? "comprobante-bancoestado.pdf" : "IMG_20260925_transferencia.jpg";
+    subida.paso = "leyendo"; pintarSubida(); return;
+  }
+  if (d.aprobar)  return aprobar(+d.aprobar);
+  if (d.rechazar) return rechazar(+d.rechazar);
+  if (d.cobrar)   return abrirCobro(+d.cobrar);
+});
+document.querySelectorAll(".overlay").forEach(function(o){
+  o.addEventListener("click", function(e){ if (e.target === o) o.classList.remove("on"); });
+});
+document.addEventListener("keydown", function(e){
+  if (e.key === "Escape") document.querySelectorAll(".overlay.on").forEach(function(o){ o.classList.remove("on"); });
+});
+
+pintarAlumno();
+pintarEscuela();
+</script>
+</body>
+</html>
