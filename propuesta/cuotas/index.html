@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cuotas y cobranza · Movanorte · Presentación comercial</title>
+<meta name="description" content="Sistema de cuotas y cobranza para escuelas de conductores, OTEC, preuniversitarios y academias. Movanorte, Iquique.">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* ============================ Tokens · tema claro ========================== */
+:root{
+  --bg:#EEF1F6;
+  --surface:#FFFFFF;
+  --surface-2:#F5F8FC;
+  --line:rgba(11,14,19,.11);
+  --line-2:rgba(11,14,19,.22);
+  --tx:#0E1218;
+  --tx-2:#4C5766;
+  --tx-3:#78849A;
+
+  /* Acento de la vertical cuotas y cobranza */
+  --acc:#0A7458;
+  --acc-2:#0E8F6E;
+  --acc-soft:rgba(14,143,110,.10);
+  --acc-line:rgba(14,143,110,.32);
+
+  /* Marca Movanorte */
+  --mova:#D65E0A;
+
+  --warn:#B77708;
+  --sh:0 18px 42px -26px rgba(11,14,19,.35);
+  --grot:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0B0E13;
+    --surface:#151A22;
+    --surface-2:#1B212B;
+    --line:rgba(255,255,255,.09);
+    --line-2:rgba(255,255,255,.2);
+    --tx:#F3F5F8;
+    --tx-2:#AFB9C7;
+    --tx-3:#78849A;
+    --acc:#2FD39F;
+    --acc-2:#6BE7C2;
+    --acc-soft:rgba(47,211,159,.12);
+    --acc-line:rgba(47,211,159,.34);
+    --mova:#FF9333;
+    --warn:#F5B942;
+    --sh:0 30px 64px -34px rgba(0,0,0,.85);
+    color-scheme:dark;
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--tx);
+  font-family:var(--grot);font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow:hidden;
+}
+h1,h2,h3{margin:0;line-height:1.08;letter-spacing:-.03em;font-weight:800;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+
+/* ================================ Escenario =============================== */
+.deck{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.slide{
+  position:absolute;inset:0;display:none;flex-direction:column;
+  padding:clamp(30px,5vw,80px) clamp(24px,6vw,92px);
+  overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+}
+.slide.on{display:flex;animation:entra .4s cubic-bezier(.22,1,.36,1) forwards}
+.lienzo{width:100%;max-width:1140px;margin:auto}
+@keyframes entra{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+.slide.on .lienzo>.cae{opacity:0;transform:translateY(16px);animation:sube .42s cubic-bezier(.22,1,.36,1) forwards}
+.slide.on .lienzo>.cae:nth-child(1){animation-delay:.05s}
+.slide.on .lienzo>.cae:nth-child(2){animation-delay:.13s}
+.slide.on .lienzo>.cae:nth-child(3){animation-delay:.21s}
+.slide.on .lienzo>.cae:nth-child(4){animation-delay:.29s}
+.slide.on .lienzo>.cae:nth-child(5){animation-delay:.37s}
+.slide.on .lienzo>.cae:nth-child(6){animation-delay:.45s}
+@keyframes sube{to{opacity:1;transform:none}}
+
+/* ================================== Marcas ================================ */
+.barra{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--acc),var(--acc-2));transition:width .36s cubic-bezier(.22,1,.36,1)}
+.marca{position:fixed;top:20px;left:clamp(24px,6vw,92px);z-index:40;display:flex;align-items:center;gap:9px;font-weight:900;letter-spacing:-.03em;font-size:15px}
+.marca .m{width:25px;height:25px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(140deg,var(--acc-2),var(--acc))}
+.marca .m svg{width:14px;height:14px;color:#fff}
+@media (prefers-color-scheme:dark){.marca .m svg{color:#06120E}}
+.marca i{font-style:normal;color:var(--mova)}
+.pag{position:fixed;bottom:22px;right:clamp(24px,6vw,92px);z-index:40;font-family:var(--mono);font-size:12px;color:var(--tx-3);letter-spacing:.08em}
+.nav{position:fixed;bottom:18px;left:clamp(24px,6vw,92px);z-index:40;display:flex;gap:8px}
+.nav button{width:38px;height:38px;border-radius:10px;border:1px solid var(--line-2);background:var(--surface);color:var(--tx-2);cursor:pointer;display:grid;place-items:center;transition:.2s}
+.nav button:hover{color:var(--tx);border-color:var(--acc-line)}
+.nav button:disabled{opacity:.34;cursor:default}
+.nav svg{width:16px;height:16px}
+.pista{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:40;font-family:var(--mono);font-size:11px;color:var(--tx-3);letter-spacing:.1em}
+@media (max-width:860px){.pista{display:none}}
+
+/* ================================== Piezas ================================ */
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--acc);border-radius:2px;flex:none}
+.tit{font-size:clamp(28px,4.4vw,54px)}
+.tit em{font-style:normal;color:var(--acc)}
+.tit-2{font-size:clamp(23px,3.4vw,42px)}
+.sub{font-size:clamp(15px,1.5vw,19.5px);color:var(--tx-2);max-width:62ch;font-weight:500}
+.sub b{color:var(--tx)}
+.pie-nota{font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--tx-3);max-width:82ch}
+.pie-nota b{color:var(--tx-2);font-weight:600}
+.marcador{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:99px;background:var(--acc-soft);border:1px solid var(--acc-line);font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--acc)}
+
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cols-2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,3.2vw,48px);align-items:center}
+@media (max-width:900px){.cols,.cols-2{grid-template-columns:1fr}.cols-2{gap:22px}}
+
+.tarj{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,2.1vw,26px);display:flex;flex-direction:column;gap:9px;box-shadow:var(--sh)}
+.tarj .n{font-family:var(--mono);font-size:11.5px;color:var(--acc);letter-spacing:.11em}
+.tarj h3{font-size:clamp(16px,1.45vw,19px);font-weight:700}
+.tarj p{color:var(--tx-2);font-size:clamp(13.5px,1.12vw,15px)}
+
+.regla{display:flex;gap:16px;align-items:flex-start;padding:clamp(18px,2.1vw,26px);border-radius:16px;
+  background:linear-gradient(155deg,var(--acc-soft),var(--surface));border:1px solid var(--acc-line);box-shadow:var(--sh)}
+.regla .ico{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--acc);margin-top:2px}
+.regla .ico svg{width:18px;height:18px;color:#fff}
+@media (prefers-color-scheme:dark){.regla .ico svg{color:#06120E}}
+.regla b{display:block;font-size:clamp(16px,1.6vw,21px);font-weight:800;letter-spacing:-.02em;margin-bottom:5px}
+.regla p{color:var(--tx-2);font-size:clamp(13.5px,1.15vw,15.5px)}
+
+.lista{display:flex;flex-direction:column;gap:13px;margin:0;padding:0;list-style:none}
+.lista li{display:flex;gap:13px;align-items:flex-start;font-size:clamp(14px,1.28vw,17px);color:var(--tx-2)}
+.lista li b{color:var(--tx);font-weight:700}
+.lista .ico{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--acc-soft);border:1px solid var(--acc-line);margin-top:1px}
+.lista .ico svg{width:14px;height:14px;color:var(--acc)}
+
+.pasos{display:flex;flex-direction:column}
+.paso{display:grid;grid-template-columns:76px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.paso:last-child{border-bottom:none}
+.paso .num{font-family:var(--mono);font-size:11.5px;color:var(--acc);padding-top:4px;letter-spacing:.07em}
+.paso b{display:block;font-size:clamp(15.5px,1.32vw,18px);margin-bottom:2px}
+.paso p{color:var(--tx-2);font-size:clamp(13.5px,1.08vw,15px)}
+@media (max-width:520px){.paso{grid-template-columns:1fr;gap:3px;padding:12px 0}.paso .num{padding-top:0}}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media (max-width:900px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;min-width:0;box-shadow:var(--sh)}
+.kpi span{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--tx-3);display:block}
+.kpi b{display:block;font-size:clamp(20px,2.5vw,27px);font-weight:900;letter-spacing:-.035em;margin-top:6px}
+.kpi small{display:block;font-size:11.5px;color:var(--tx-3);margin-top:3px}
+.kpi.mora b{color:var(--acc)}
+
+/* ============================== Tabla de planes ============================ */
+.tabla{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface);box-shadow:var(--sh)}
+.fila{display:grid;grid-template-columns:1.5fr .85fr .7fr .7fr 1fr 1fr;gap:12px;align-items:center;padding:15px 18px;border-top:1px solid var(--line)}
+.fila:first-child{border-top:none}
+.fila--cab{background:var(--surface-2);font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx-3)}
+.fila--dest{background:var(--acc-soft);box-shadow:inset 3px 0 0 var(--acc)}
+.pl{font-weight:800;font-size:clamp(15px,1.35vw,18px)}
+.pl small{display:block;font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);margin-top:3px}
+.cl{font-size:14.5px;color:var(--tx-2)}
+.val{font-weight:900;font-size:clamp(17px,1.9vw,23px);letter-spacing:-.03em}
+.val i{font-style:normal;font-size:12px;font-weight:500;color:var(--tx-3);letter-spacing:0}
+.ins{font-family:var(--mono);font-size:13px;color:var(--tx-2)}
+@media (max-width:860px){
+  .tabla{background:transparent;border:none;border-radius:0;box-shadow:none;gap:11px}
+  .fila--cab{display:none}
+  .fila{grid-template-columns:1fr;row-gap:7px;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:15px 16px}
+  .fila--dest{border-color:var(--acc-line)}
+  .fila>*:not(.pl){display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .fila>*:not(.pl)::before{content:attr(data-t);font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--tx-3);flex:none}
+  .val{font-size:19px}
+  .ins,.cl{font-size:14px}
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:99px;background:var(--surface);border:1px solid var(--line);font-size:13px;color:var(--tx-2)}
+.chip svg{width:13px;height:13px;color:var(--acc);flex:none}
+.chip--rot{background:transparent;border:none;padding-left:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx-3)}
+
+/* ================================== Cierre ================================= */
+.frase{font-size:clamp(26px,4.2vw,50px);font-weight:900;letter-spacing:-.035em;max-width:24ch;line-height:1.06}
+.contacto{display:flex;gap:28px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--tx-3)}
+.contacto b{display:block;color:var(--tx);font-size:15px;font-weight:700;margin-top:4px;font-family:var(--grot);letter-spacing:-.01em}
+.demo{display:inline-flex;align-items:center;gap:12px;max-width:100%;padding:16px 22px;border-radius:15px;text-decoration:none;
+  background:linear-gradient(140deg,var(--acc-2),var(--acc));color:#fff;font-weight:800;font-size:clamp(15px,1.7vw,21px);letter-spacing:-.02em;box-shadow:var(--sh);word-break:break-word}
+@media (prefers-color-scheme:dark){.demo{color:#06120E}}
+.demo svg{width:19px;height:19px;flex:none}
+.pie{font-family:var(--mono);font-size:11.5px;color:var(--tx-3);letter-spacing:.06em;border-top:1px solid var(--line);padding-top:14px}
+
+@media (max-width:860px){
+  .slide{padding:56px 20px 82px}
+  .nav{left:20px}
+  .pag{right:20px}
+  .marca{left:20px;top:17px}
+}
+@media (prefers-reduced-motion:reduce){
+  .slide.on,.slide.on .lienzo>.cae{animation:none;opacity:1;transform:none}
+  .barra{transition:none}
+}
+
+/* ================================== Imprimir ============================== */
+@media print{
+  :root{
+    --bg:#fff;--surface:#fff;--surface-2:#F4F6F9;
+    --line:rgba(0,0,0,.18);--line-2:rgba(0,0,0,.3);
+    --tx:#000;--tx-2:#333;--tx-3:#666;
+    --acc:#0A6A50;--acc-2:#0A6A50;--acc-soft:#EFF6F3;--acc-line:#9CC9BC;
+    --sh:none;color-scheme:light;
+  }
+  body{overflow:visible;background:#fff}
+  .deck{height:auto;overflow:visible}
+  .slide{position:relative;inset:auto;display:flex!important;opacity:1!important;overflow:visible;
+    height:auto;min-height:0;padding:14px 16px;break-after:page;page-break-after:always;break-inside:avoid;animation:none}
+  .lienzo{margin:0 auto}
+  .slide:last-child{break-after:auto;page-break-after:auto}
+  .slide .lienzo>.cae{opacity:1!important;transform:none!important;animation:none}
+  .barra,.nav,.pista,.pag,.marca{display:none}
+  .demo{color:#0A6A50;background:none;border:1px solid #0A6A50;box-shadow:none}
+  .regla .ico{background:#0A6A50}
+  .regla .ico svg{color:#fff}
+}
+</style>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><defs>
+<g id="i-doc" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h7.5L18 8v12.5H6z"/><path d="M13 3.5V8h5"/><path d="M9 12.5h6M9 16h4"/></g>
+<g id="i-check" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></g>
+<g id="i-lock" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 10.5h11V20h-11z"/><path d="M9 10.5V7.8a3 3 0 016 0v2.7"/></g>
+<g id="i-link" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13.5a4 4 0 005.7 0l2.8-2.8a4 4 0 10-5.7-5.7L11.5 6.3"/><path d="M14 10.5a4 4 0 00-5.7 0l-2.8 2.8a4 4 0 105.7 5.7l1.3-1.3"/></g>
+<g id="i-left" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5.5L8 12l6.5 6.5"/></g>
+<g id="i-right" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5L16 12l-6.5 6.5"/></g>
+</defs></svg>
+
+<div class="barra" id="barra"></div>
+<div class="marca"><span class="m"><svg viewBox="0 0 24 24"><use href="#i-doc"/></svg></span><span>MOVA<i>NORTE</i></span></div>
+<div class="pag" id="pag">01 / 06</div>
+<div class="nav">
+  <button id="ant" type="button" aria-label="Lámina anterior"><svg viewBox="0 0 24 24"><use href="#i-left"/></svg></button>
+  <button id="sig" type="button" aria-label="Lámina siguiente"><svg viewBox="0 0 24 24"><use href="#i-right"/></svg></button>
+</div>
+<div class="pista">← → para navegar</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 · Portada -->
+  <section class="slide on">
+    <div class="lienzo">
+      <div class="cae"><span class="eyebrow">Presentación comercial</span></div>
+      <h1 class="tit cae" style="margin-top:22px;font-size:clamp(32px,6vw,72px);max-width:17ch">Cuotas y cobranza,<br><em>sin planilla ni cuaderno.</em></h1>
+      <p class="sub cae" style="margin-top:20px">El alumno entra con su RUT, ve lo que debe y sube su comprobante. La escuela solo aprueba.</p>
+      <div class="contacto cae" style="margin-top:44px">
+        <div>Presenta<b>Movanorte</b></div>
+        <div>Dónde<b>Iquique</b></div>
+        <div>Fecha<b>Septiembre 2026</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · El problema -->
+  <section class="slide">
+    <div class="lienzo">
+      <div class="cae"><span class="eyebrow">El problema</span></div>
+      <h2 class="tit cae" style="margin:22px 0 32px;max-width:24ch">¿Quién lleva el control de <em>quién pagó</em>?</h2>
+      <div class="cols cae">
+        <div class="tarj"><span class="n">01</span><h3>El comprobante que nadie alcanzó a revisar</h3><p>Llega por WhatsApp entre veinte mensajes más. El alumno ya pagó y en la planilla sigue debiendo.</p></div>
+        <div class="tarj"><span class="n">02</span><h3>La cuota atrasada que nadie persiguió</h3><p>El atraso no avisa solo. Se descubre cuando el alumno terminó el curso y quedó debiendo.</p></div>
+        <div class="tarj"><span class="n">03</span><h3>El tiempo del mostrador</h3><p>"¿Cuánto debo?" se responde varias veces al día, buscando en la planilla con alguien esperando.</p></div>
+      </div>
+      <p class="pie-nota cae" style="margin-top:30px"><b>Referencias, no promesas.</b> Un curso de licencia clase B cuesta entre $280.000 y $400.000: una sola matrícula perdida por falta de seguimiento es plata gruesa. En otro rubro que cobra cuotas mes a mes —las comunidades— el estudio Edifito 2025 midió morosidad en el 29,8% de las unidades. Sirve para ver el tamaño del problema, no para prometer un resultado.</p>
+    </div>
+  </section>
+
+  <!-- 3 · Cómo funciona -->
+  <section class="slide">
+    <div class="lienzo">
+      <div class="cae"><span class="eyebrow">Cómo funciona</span></div>
+      <h2 class="tit-2 cae" style="margin:18px 0 22px">Cuatro pasos, y el último es el suyo</h2>
+      <div class="pasos cae">
+        <div class="paso"><span class="num">PASO 1</span><div><b>Entra con su RUT</b><p>Le llega un código de 4 dígitos a su WhatsApp. Sin contraseñas que administrar.</p></div></div>
+        <div class="paso"><span class="num">PASO 2</span><div><b>Sube el comprobante</b><p>La foto del banco o el PDF, desde su teléfono, a cualquier hora.</p></div></div>
+        <div class="paso"><span class="num">PASO 3</span><div><b>La IA lo lee</b><p>Monto, fecha, cuenta de destino, número de operación y glosa quedan escritos para contrastarlos con la cartola.</p></div></div>
+        <div class="paso"><span class="num">PASO 4</span><div><b>Ustedes aprueban</b><p>Recién ahí se aplica, desde la cuota más antigua impaga.</p></div></div>
+      </div>
+      <div class="regla cae" style="margin-top:26px">
+        <span class="ico"><svg viewBox="0 0 24 24"><use href="#i-lock"/></svg></span>
+        <div>
+          <b>Nada entra a la caja hasta que alguien de la escuela lo confirma.</b>
+          <p>Mientras está en revisión no toca la planilla ni los totales. Y todo pago aplicado se puede deshacer: la reversa descuenta exactamente lo que se aplicó.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Qué ve la escuela -->
+  <section class="slide">
+    <div class="lienzo">
+      <div class="cae"><span class="eyebrow">Qué ve la escuela</span></div>
+      <h2 class="tit-2 cae" style="margin:18px 0 22px">Los cuatro números del mes, en una pantalla</h2>
+      <div class="kpis cae">
+        <div class="kpi"><span>Alumnos activos</span><b>68</b><small>cursos en marcha</small></div>
+        <div class="kpi"><span>Recaudado en el mes</span><b>$7.140.000</b><small>aprobado, no declarado</small></div>
+        <div class="kpi"><span>Por cobrar</span><b>$4.325.000</b><small>cuotas sin pagar</small></div>
+        <div class="kpi mora"><span>Morosidad</span><b>15,0%</b><small>$1.720.000 vencidos</small></div>
+      </div>
+      <div class="cols cae" style="margin-top:22px">
+        <div class="tarj"><span class="n">BANDEJA</span><h3>Comprobantes por revisar</h3><p>Con lo que leyó la IA al lado del monto que declaró el alumno, y el aviso si no calzan. Aprobar o rechazar.</p></div>
+        <div class="tarj"><span class="n">DEUDORES</span><h3>Quién debe y desde cuándo</h3><p>Ordenada por deuda vencida. Es la lista con la que se trabaja el día 5 de cada mes.</p></div>
+        <div class="tarj"><span class="n">COBRANZA</span><h3>El aviso sale solo</h3><p>Un botón por alumno: el mensaje se arma con sus cuotas vencidas y sale por WhatsApp desde el número de la escuela.</p></div>
+      </div>
+      <p class="pie-nota cae" style="margin-top:26px">Las cifras son de la demo y son ficticias, sobre una escuela inventada de 68 alumnos. Los números reales son los de su escuela, cargados desde su planilla.</p>
+    </div>
+  </section>
+
+  <!-- 5 · Los tres planes -->
+  <section class="slide">
+    <div class="lienzo">
+      <div class="cae" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center"><span class="eyebrow">Inversión</span><span class="marcador">Los dos primeros meses son gratis</span></div>
+      <h2 class="tit-2 cae" style="margin:14px 0 18px">Tres planes, según cuántos alumnos maneja</h2>
+      <div class="tabla cae">
+        <div class="fila fila--cab">
+          <div>Plan</div><div>Alumnos activos</div><div>Sedes</div><div>Accesos</div><div>Al mes</div><div>Instalación</div>
+        </div>
+        <div class="fila">
+          <div class="pl">Escuela</div>
+          <div class="cl" data-t="Alumnos">hasta 100</div>
+          <div class="cl" data-t="Sedes">1</div>
+          <div class="cl" data-t="Accesos">2</div>
+          <div class="val" data-t="Al mes">$39.000<i> / mes</i></div>
+          <div class="ins" data-t="Instalación">$390.000</div>
+        </div>
+        <div class="fila fila--dest">
+          <div class="pl">Escuela Pro<small>Recomendado</small></div>
+          <div class="cl" data-t="Alumnos">hasta 300</div>
+          <div class="cl" data-t="Sedes">hasta 3</div>
+          <div class="cl" data-t="Accesos">5</div>
+          <div class="val" data-t="Al mes">$69.000<i> / mes</i></div>
+          <div class="ins" data-t="Instalación">$490.000</div>
+        </div>
+        <div class="fila">
+          <div class="pl">Red</div>
+          <div class="cl" data-t="Alumnos">sin límite</div>
+          <div class="cl" data-t="Sedes">sin límite</div>
+          <div class="cl" data-t="Accesos">10</div>
+          <div class="val" data-t="Al mes">$99.000<i> / mes</i></div>
+          <div class="ins" data-t="Instalación">$690.000</div>
+        </div>
+      </div>
+      <div class="chips cae" style="margin-top:16px">
+        <span class="chip chip--rot">La instalación incluye</span>
+        <span class="chip"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg>Carga de alumnos y aranceles desde su planilla</span>
+        <span class="chip"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg>Su logo y sus colores</span>
+        <span class="chip"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg>Subdominio propio</span>
+        <span class="chip"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg>Conexión del WhatsApp de la escuela</span>
+        <span class="chip"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg>Capacitación al mostrador</span>
+      </div>
+      <p class="sub cae" style="margin-top:18px"><b>Un curso cuesta cerca de $340.000: si el sistema recupera una matrícula al año, ya se pagó.</b></p>
+      <p class="pie-nota cae" style="margin-top:10px">Instalación por adelantado, una sola vez. El plan se empieza a cobrar el mes 3. <b>Anual:</b> pagando 12 meses por adelantado se cobran 10.</p>
+    </div>
+  </section>
+
+  <!-- 6 · Cierre -->
+  <section class="slide">
+    <div class="lienzo">
+      <div class="cae"><span class="eyebrow">Esto ya funciona</span></div>
+      <h2 class="frase cae" style="margin:20px 0 26px">Operando desde septiembre de 2026, no en proyecto.</h2>
+      <div class="cols-2 cae" style="align-items:start">
+        <ul class="lista">
+          <li><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span><div><b>Corriendo en el centro de padres de un colegio de Iquique</b>: comprobantes leídos por IA, aprobación y avisos por WhatsApp. Movanorte mantiene 5 paneles de gestión en producción.</div></li>
+          <li><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span><div><b>Si dicen que sí: dos semanas</b> desde que entregan su planilla de alumnos y aranceles. Instalación por adelantado, y los dos primeros meses del plan van gratis.</div></li>
+        </ul>
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <a class="demo" href="https://movanorte.cl/demo/cuotas/"><svg viewBox="0 0 24 24"><use href="#i-link"/></svg>movanorte.cl/demo/cuotas/</a>
+          <div class="contacto">
+            <div>Contacto<b>Alejandro Vega</b></div>
+            <div>WhatsApp<b>+56 9 3257 7561</b></div>
+            <div>Correo<b>contacto@movanorte.cl</b></div>
+            <div>Sitio<b>movanorte.cl</b></div>
+          </div>
+        </div>
+      </div>
+      <p class="pie cae" style="margin-top:30px">Movanorte · movanorte.cl · Iquique</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var deck = document.getElementById('deck');
+  var barra = document.getElementById('barra');
+  var pag = document.getElementById('pag');
+  var ant = document.getElementById('ant');
+  var sig = document.getElementById('sig');
+  var i = 0;
+
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+
+  function ver(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, k){
+      s.classList.toggle('on', k === i);
+      if(k === i) s.scrollTop = 0;
+    });
+    barra.style.width = ((i + 1) / slides.length * 100) + '%';
+    pag.textContent = pad(i + 1) + ' / ' + pad(slides.length);
+    ant.disabled = i === 0;
+    sig.disabled = i === slides.length - 1;
+    if(history.replaceState) history.replaceState(null, '', '#' + (i + 1));
+  }
+
+  ant.addEventListener('click', function(e){ e.stopPropagation(); ver(i - 1); });
+  sig.addEventListener('click', function(e){ e.stopPropagation(); ver(i + 1); });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); ver(i + 1); }
+    if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); ver(i - 1); }
+    if(e.key === 'Home'){ ver(0); }
+    if(e.key === 'End'){ ver(slides.length - 1); }
+  });
+
+  /* clic para avanzar: con mouse, y no sobre enlaces ni al seleccionar texto */
+  var toque = false;
+  deck.addEventListener('pointerdown', function(e){ toque = e.pointerType === 'touch' || e.pointerType === 'pen'; }, {passive:true});
+  deck.addEventListener('click', function(e){
+    if(toque) return;
+    if(e.target.closest('a,button')) return;
+    var sel = window.getSelection();
+    if(sel && String(sel).length > 2) return;
+    ver(i + 1);
+  });
+
+  /* deslizar en el teléfono, sin secuestrar el desplazamiento vertical */
+  var x0 = null, y0 = null;
+  deck.addEventListener('touchstart', function(e){
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+  }, {passive:true});
+  deck.addEventListener('touchend', function(e){
+    if(x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    var dy = e.changedTouches[0].clientY - y0;
+    if(Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.5){ ver(dx < 0 ? i + 1 : i - 1); }
+    x0 = y0 = null;
+  }, {passive:true});
+
+  var inicial = parseInt(location.hash.slice(1), 10);
+  ver(inicial > 0 ? inicial - 1 : 0);
+})();
+</script>
