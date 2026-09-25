@@ -4,78 +4,87 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Cuotas y cobranza · Movanorte · Presentación comercial</title>
 <meta name="description" content="Sistema de cuotas y cobranza para escuelas de conductores, OTEC, preuniversitarios y academias. Movanorte, Iquique.">
+<meta name="theme-color" content="#04090B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-/* ============================ Tokens · tema claro ========================== */
+/* ===================== Tokens · los del sitio movanorte.cl ================= */
 :root{
-  --bg:#EEF1F6;
-  --surface:#FFFFFF;
-  --surface-2:#F5F8FC;
-  --line:rgba(11,14,19,.11);
-  --line-2:rgba(11,14,19,.22);
-  --tx:#04090B;
-  --tx-2:#4C5766;
-  --tx-3:#78849A;
+  --ink:#04090B;
+  --ink-2:#080F12;
+  --card:#0B1316;
+  --card-2:#0F1A1E;
 
-  /* Acento de la vertical cuotas y cobranza */
-  --acc:#0A6B48;
-  --acc-2:#12915F;
-  --acc-soft:rgba(135,255,193,.26);
-  --acc-line:rgba(10,107,72,.30);
+  --lime:#DFFF70;
+  --mint:#87FFC1;
+  --cyan:#4FD8FF;
+  --mint-deep:#0A6B48;
+  --alerta:#FF5A5A;
 
-  /* Marca Movanorte */
-  --mova:#0A6B48;
+  --tx:#EAF3F0;
+  --tx-2:#93A7A4;
+  --tx-3:#6B7D7B;
 
-  --warn:#B77708;
-  --sh:0 18px 42px -26px rgba(11,14,19,.35);
-  --grot:"Archivo","Helvetica Neue",Arial,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
-  color-scheme:light;
-}
-@media (prefers-color-scheme:dark){
-  :root{
-    --bg:#0B0E13;
-    --surface:#151A22;
-    --surface-2:#1B212B;
-    --line:rgba(255,255,255,.09);
-    --line-2:rgba(255,255,255,.2);
-    --tx:#F3F5F8;
-    --tx-2:#AFB9C7;
-    --tx-3:#78849A;
-    --acc:#2FD39F;
-    --acc-2:#6BE7C2;
-    --acc-soft:rgba(47,211,159,.12);
-    --acc-line:rgba(47,211,159,.34);
-    --mova:#87FFC1;
-    --warn:#F5B942;
-    --sh:0 30px 64px -34px rgba(0,0,0,.85);
-    color-scheme:dark;
-  }
+  --line:rgba(135,255,193,.18);
+  --line-soft:rgba(255,255,255,.08);
+  --acc:var(--mint);
+  --acc-soft:rgba(135,255,193,.09);
+  --glow:rgba(135,255,193,.28);
+  --grad:linear-gradient(100deg,var(--lime) 0%,var(--mint) 46%,var(--cyan) 100%);
+
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --sans:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
+  color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  margin:0;background:var(--bg);color:var(--tx);
-  font-family:var(--grot);font-size:16px;line-height:1.55;
+  margin:0;background:var(--ink);color:var(--tx);
+  font-family:var(--sans);font-size:16px;line-height:1.6;
   -webkit-font-smoothing:antialiased;overflow:hidden;
 }
-h1,h2,h3{margin:0;line-height:1.08;letter-spacing:-.03em;font-weight:800;text-wrap:balance}
+h1,h2,h3{margin:0;font-weight:400;text-wrap:balance}
 p{margin:0}
 a{color:inherit}
+::selection{background:var(--mint);color:var(--ink)}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:var(--ink-2)}
+::-webkit-scrollbar-thumb{background:rgba(135,255,193,.3)}
+
+/* ============================ Fondo: retícula y halos ===================== */
+.fondo{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.reticula{
+  position:absolute;inset:0;
+  background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);
+  background-size:clamp(48px,7vw,86px) clamp(48px,7vw,86px);
+  -webkit-mask-image:radial-gradient(130% 95% at 50% 0%,#000 0%,transparent 74%);
+          mask-image:radial-gradient(130% 95% at 50% 0%,#000 0%,transparent 74%);
+  opacity:.5;
+}
+.halo{position:absolute;border-radius:50%;filter:blur(80px)}
+.halo.a{width:52vw;height:52vw;background:var(--mint);top:-18vw;left:-14vw;opacity:.22;animation:deriva 20s ease-in-out infinite alternate}
+.halo.b{width:40vw;height:40vw;background:var(--cyan);bottom:-16vw;right:-12vw;opacity:.14;animation:deriva 26s ease-in-out infinite alternate-reverse}
+@keyframes deriva{0%{transform:translate(0,0) scale(1)}100%{transform:translate(3vw,2vw) scale(1.1)}}
+.grano{
+  position:fixed;inset:-10%;pointer-events:none;z-index:60;opacity:.055;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='250' height='250'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
 
 /* ================================ Escenario =============================== */
-.deck{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.deck{position:relative;z-index:1;width:100%;height:100vh;height:100dvh;overflow:hidden}
 .slide{
   position:absolute;inset:0;display:none;flex-direction:column;
-  padding:clamp(30px,5vw,80px) clamp(24px,6vw,92px);
+  padding:clamp(70px,8vh,104px) clamp(20px,6vw,92px) clamp(80px,10vh,104px);
   overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
 }
-.slide.on{display:flex;animation:entra .4s cubic-bezier(.22,1,.36,1) forwards}
+.slide.on{display:flex;animation:entra .45s var(--ease) forwards}
 .lienzo{width:100%;max-width:1140px;margin:auto}
 @keyframes entra{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 
-.slide.on .lienzo>.cae{opacity:0;transform:translateY(16px);animation:sube .42s cubic-bezier(.22,1,.36,1) forwards}
+.slide.on .lienzo>.cae{opacity:0;transform:translateY(18px);animation:sube .5s var(--ease) forwards}
 .slide.on .lienzo>.cae:nth-child(1){animation-delay:.05s}
 .slide.on .lienzo>.cae:nth-child(2){animation-delay:.13s}
 .slide.on .lienzo>.cae:nth-child(3){animation-delay:.21s}
@@ -85,140 +94,193 @@ a{color:inherit}
 @keyframes sube{to{opacity:1;transform:none}}
 
 /* ================================== Marcas ================================ */
-.barra{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;background:linear-gradient(90deg,var(--acc),var(--acc-2));transition:width .36s cubic-bezier(.22,1,.36,1)}
-.marca{position:fixed;top:20px;left:clamp(24px,6vw,92px);z-index:40;display:flex;align-items:center;gap:9px;font-weight:900;letter-spacing:-.03em;font-size:15px}
-.marca .m{width:25px;height:25px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(140deg,var(--acc-2),var(--acc))}
-.marca .m svg{width:14px;height:14px;color:#fff}
-@media (prefers-color-scheme:dark){.marca .m svg{color:#06120E}}
-.marca i{font-style:normal;color:var(--mova)}
-.pag{position:fixed;bottom:22px;right:clamp(24px,6vw,92px);z-index:40;font-family:var(--mono);font-size:12px;color:var(--tx-3);letter-spacing:.08em}
-.nav{position:fixed;bottom:18px;left:clamp(24px,6vw,92px);z-index:40;display:flex;gap:8px}
-.nav button{width:38px;height:38px;border-radius:10px;border:1px solid var(--line-2);background:var(--surface);color:var(--tx-2);cursor:pointer;display:grid;place-items:center;transition:.2s}
-.nav button:hover{color:var(--tx);border-color:var(--acc-line)}
-.nav button:disabled{opacity:.34;cursor:default}
+.barra{position:fixed;top:0;left:0;height:2px;width:0;z-index:50;background:var(--grad);transition:width .4s var(--ease)}
+.marca{
+  position:fixed;top:20px;left:clamp(20px,6vw,92px);z-index:40;
+  display:flex;align-items:center;gap:11px;
+}
+.marca .m{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--mint);box-shadow:0 0 22px rgba(135,255,193,.3)}
+.marca .m svg{width:15px;height:15px;color:var(--ink)}
+.marca .tx{font-family:var(--serif);font-size:20px;letter-spacing:.09em;line-height:1}
+.marca i{font-style:normal;color:var(--mint)}
+.marca small{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--tx-3);margin-top:4px;white-space:nowrap}
+@media (max-width:520px){.marca small{display:none}}
+
+.pag{position:fixed;bottom:24px;right:clamp(20px,6vw,92px);z-index:40;font-family:var(--mono);font-size:11px;color:var(--tx-2);letter-spacing:.2em}
+.nav{position:fixed;bottom:18px;left:clamp(20px,6vw,92px);z-index:40;display:flex;gap:9px}
+.nav button{
+  width:40px;height:40px;border-radius:50%;border:1px solid var(--line-soft);
+  background:var(--card-2);color:var(--tx-2);cursor:pointer;display:grid;place-items:center;
+  transition:color .25s,border-color .25s,transform .25s var(--ease);
+}
+.nav button:hover:not(:disabled){color:var(--mint);border-color:var(--line);transform:translateY(-2px)}
+.nav button:disabled{opacity:.3;cursor:default}
 .nav svg{width:16px;height:16px}
-.pista{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:40;font-family:var(--mono);font-size:11px;color:var(--tx-3);letter-spacing:.1em}
+.pista{position:fixed;bottom:29px;left:50%;transform:translateX(-50%);z-index:40;font-family:var(--mono);font-size:10px;color:var(--tx-3);letter-spacing:.22em;text-transform:uppercase}
 @media (max-width:860px){.pista{display:none}}
 
 /* ================================== Piezas ================================ */
-.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);display:flex;align-items:center;gap:10px}
-.eyebrow::before{content:"";width:22px;height:2px;background:var(--acc);border-radius:2px;flex:none}
-.tit{font-size:clamp(28px,4.4vw,54px)}
-.tit em{font-style:normal;color:var(--acc)}
-.tit-2{font-size:clamp(23px,3.4vw,42px)}
-.sub{font-size:clamp(15px,1.5vw,19.5px);color:var(--tx-2);max-width:62ch;font-weight:500}
-.sub b{color:var(--tx)}
-.pie-nota{font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--tx-3);max-width:82ch}
-.pie-nota b{color:var(--tx-2);font-weight:600}
-.marcador{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:99px;background:var(--acc-soft);border:1px solid var(--acc-line);font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--acc)}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--mint);
+}
+.eyebrow::before{content:"";width:32px;height:1px;background:var(--mint);flex:none}
+
+.tit{font-family:var(--serif);font-size:clamp(34px,5.6vw,72px);line-height:.98;letter-spacing:-.012em}
+.tit-2{font-family:var(--serif);font-size:clamp(27px,3.9vw,50px);line-height:1.02;letter-spacing:-.012em}
+.tit em,.tit-2 em{
+  font-style:italic;font-family:var(--serif);
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+}
+.tit .ln{display:block}
+.fantasma{-webkit-text-stroke:1.4px rgba(147,167,164,.5);color:transparent;-webkit-text-fill-color:transparent}
+
+.sub{font-size:clamp(15px,1.5vw,19px);color:var(--tx-2);max-width:60ch;line-height:1.65;font-weight:400}
+.sub b{color:var(--tx);font-weight:600}
+.pie-nota{font-family:var(--mono);font-size:11px;line-height:1.75;color:var(--tx-2);max-width:86ch}
+.pie-nota b{color:var(--tx);font-weight:500}
+.marcador{
+  display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;
+  background:var(--acc-soft);border:1px solid var(--line);
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mint);
+}
 
 .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .cols-2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,3.2vw,48px);align-items:center}
 @media (max-width:900px){.cols,.cols-2{grid-template-columns:1fr}.cols-2{gap:22px}}
 
-.tarj{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,2.1vw,26px);display:flex;flex-direction:column;gap:9px;box-shadow:var(--sh)}
-.tarj .n{font-family:var(--mono);font-size:11.5px;color:var(--acc);letter-spacing:.11em}
-.tarj h3{font-size:clamp(16px,1.45vw,19px);font-weight:700}
-.tarj p{color:var(--tx-2);font-size:clamp(13.5px,1.12vw,15px)}
+.tarj{
+  background:var(--card);border:1px solid var(--line-soft);border-radius:2px;
+  padding:clamp(18px,2.1vw,26px);display:flex;flex-direction:column;gap:8px;
+  transition:border-color .35s,background .35s,transform .45s var(--ease);
+}
+.tarj:hover{border-color:var(--line);background:var(--card-2);transform:translateY(-3px)}
+.tarj .n{font-family:var(--mono);font-size:10px;color:var(--mint);letter-spacing:.24em;text-transform:uppercase}
+.tarj h3{font-family:var(--serif);font-size:clamp(20px,1.9vw,26px);line-height:1.06;margin-top:6px}
+.tarj p{color:var(--tx-2);font-size:clamp(13.5px,1.12vw,15px);line-height:1.6}
 
-.regla{display:flex;gap:16px;align-items:flex-start;padding:clamp(18px,2.1vw,26px);border-radius:16px;
-  background:linear-gradient(155deg,var(--acc-soft),var(--surface));border:1px solid var(--acc-line);box-shadow:var(--sh)}
-.regla .ico{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--acc);margin-top:2px}
-.regla .ico svg{width:18px;height:18px;color:#fff}
-@media (prefers-color-scheme:dark){.regla .ico svg{color:#06120E}}
-.regla b{display:block;font-size:clamp(16px,1.6vw,21px);font-weight:800;letter-spacing:-.02em;margin-bottom:5px}
-.regla p{color:var(--tx-2);font-size:clamp(13.5px,1.15vw,15.5px)}
+.regla{
+  display:flex;gap:18px;align-items:flex-start;padding:clamp(18px,2.1vw,26px);
+  background:linear-gradient(140deg,rgba(135,255,193,.08),rgba(79,216,255,.03) 62%,transparent);
+  border:1px solid var(--line-soft);border-left:2px solid var(--mint);
+}
+.regla .ico{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--acc-soft);border:1px solid var(--line);margin-top:2px}
+.regla .ico svg{width:18px;height:18px;color:var(--mint)}
+.regla b{display:block;font-family:var(--serif);font-size:clamp(19px,1.9vw,26px);font-weight:400;line-height:1.14;letter-spacing:-.01em;margin-bottom:7px;color:var(--tx)}
+.regla p{color:var(--tx-2);font-size:clamp(13.5px,1.15vw,15.5px);line-height:1.6}
 
-.lista{display:flex;flex-direction:column;gap:13px;margin:0;padding:0;list-style:none}
-.lista li{display:flex;gap:13px;align-items:flex-start;font-size:clamp(14px,1.28vw,17px);color:var(--tx-2)}
-.lista li b{color:var(--tx);font-weight:700}
-.lista .ico{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--acc-soft);border:1px solid var(--acc-line);margin-top:1px}
-.lista .ico svg{width:14px;height:14px;color:var(--acc)}
+.lista{display:flex;flex-direction:column;gap:15px;margin:0;padding:0;list-style:none}
+.lista li{display:flex;gap:14px;align-items:flex-start;font-size:clamp(14px,1.28vw,16.5px);color:var(--tx-2);line-height:1.6}
+.lista li b{color:var(--tx);font-weight:600}
+.lista .ico{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--acc-soft);border:1px solid var(--line);margin-top:2px}
+.lista .ico svg{width:14px;height:14px;color:var(--mint)}
 
-.pasos{display:flex;flex-direction:column}
-.paso{display:grid;grid-template-columns:76px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
-.paso:last-child{border-bottom:none}
-.paso .num{font-family:var(--mono);font-size:11.5px;color:var(--acc);padding-top:4px;letter-spacing:.07em}
-.paso b{display:block;font-size:clamp(15.5px,1.32vw,18px);margin-bottom:2px}
-.paso p{color:var(--tx-2);font-size:clamp(13.5px,1.08vw,15px)}
-@media (max-width:520px){.paso{grid-template-columns:1fr;gap:3px;padding:12px 0}.paso .num{padding-top:0}}
+.pasos{display:flex;flex-direction:column;border-top:1px solid var(--line-soft)}
+.paso{display:grid;grid-template-columns:96px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--line-soft)}
+.paso .num{font-family:var(--mono);font-size:10px;color:var(--mint);padding-top:6px;letter-spacing:.22em}
+.paso b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(19px,1.8vw,24px);line-height:1.1;margin-bottom:4px;color:var(--tx)}
+.paso p{color:var(--tx-2);font-size:clamp(13.5px,1.08vw,15px);line-height:1.6}
+@media (max-width:520px){.paso{grid-template-columns:1fr;gap:4px;padding:13px 0}.paso .num{padding-top:0}}
 
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
 @media (max-width:900px){.kpis{grid-template-columns:1fr 1fr}}
-.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;min-width:0;box-shadow:var(--sh)}
-.kpi span{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--tx-3);display:block}
-.kpi b{display:block;font-size:clamp(20px,2.5vw,27px);font-weight:900;letter-spacing:-.035em;margin-top:6px}
-.kpi small{display:block;font-size:11.5px;color:var(--tx-3);margin-top:3px}
-.kpi.mora b{color:var(--acc)}
+.kpi{background:var(--card);padding:18px 18px 20px;min-width:0}
+.kpi span{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx-2);display:block}
+.kpi b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(28px,3.4vw,44px);line-height:1;letter-spacing:-.01em;margin-top:10px;font-variant-numeric:tabular-nums;color:var(--tx)}
+.kpi small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--tx-2);margin-top:8px}
+.kpi.mora b{color:var(--mint)}
 
 /* ============================== Tabla de planes ============================ */
-.tabla{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface);box-shadow:var(--sh)}
-.fila{display:grid;grid-template-columns:1.5fr .85fr .7fr .7fr 1fr 1fr;gap:12px;align-items:center;padding:15px 18px;border-top:1px solid var(--line)}
+.tabla{display:flex;flex-direction:column;border:1px solid var(--line-soft);background:var(--card)}
+.fila{display:grid;grid-template-columns:1.5fr .85fr .7fr .7fr 1fr 1fr;gap:12px;align-items:center;padding:16px 20px;border-top:1px solid var(--line-soft)}
 .fila:first-child{border-top:none}
-.fila--cab{background:var(--surface-2);font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx-3)}
-.fila--dest{background:var(--acc-soft);box-shadow:inset 3px 0 0 var(--acc)}
-.pl{font-weight:800;font-size:clamp(15px,1.35vw,18px)}
-.pl small{display:block;font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--acc);margin-top:3px}
+.fila--cab{background:var(--ink-2);font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx-2)}
+.fila--dest{background:linear-gradient(100deg,rgba(135,255,193,.1),rgba(79,216,255,.04));box-shadow:inset 2px 0 0 var(--mint)}
+.pl{font-family:var(--serif);font-size:clamp(20px,1.9vw,26px);line-height:1.05;color:var(--tx)}
+.pl small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--mint);margin-top:6px}
 .cl{font-size:14.5px;color:var(--tx-2)}
-.val{font-weight:900;font-size:clamp(17px,1.9vw,23px);letter-spacing:-.03em}
-.val i{font-style:normal;font-size:12px;font-weight:500;color:var(--tx-3);letter-spacing:0}
-.ins{font-family:var(--mono);font-size:13px;color:var(--tx-2)}
+.val{font-family:var(--serif);font-size:clamp(22px,2.4vw,32px);line-height:1;color:var(--tx);font-variant-numeric:tabular-nums}
+.val i{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--tx-2);letter-spacing:.08em}
+.fila--dest .val{color:var(--mint)}
+.ins{font-family:var(--mono);font-size:12.5px;color:var(--tx-2)}
 @media (max-width:860px){
-  .tabla{background:transparent;border:none;border-radius:0;box-shadow:none;gap:11px}
+  .tabla{background:transparent;border:none;gap:12px}
   .fila--cab{display:none}
-  .fila{grid-template-columns:1fr;row-gap:7px;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:15px 16px}
-  .fila--dest{border-color:var(--acc-line)}
-  .fila>*:not(.pl){display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-  .fila>*:not(.pl)::before{content:attr(data-t);font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--tx-3);flex:none}
-  .val{font-size:19px}
-  .ins,.cl{font-size:14px}
+  .fila{grid-template-columns:1fr;row-gap:8px;border:1px solid var(--line-soft);background:var(--card);padding:16px}
+  .fila--dest{border-color:var(--line)}
+  .fila>*:not(.pl){display:flex;justify-content:flex-end;align-items:baseline;gap:10px}
+  .fila>*:not(.pl)::before{margin-right:auto;content:attr(data-t);font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--tx-2);flex:none}
+  .val{font-size:24px}
+  .ins,.cl{font-size:13.5px}
 }
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:99px;background:var(--surface);border:1px solid var(--line);font-size:13px;color:var(--tx-2)}
-.chip svg{width:13px;height:13px;color:var(--acc);flex:none}
-.chip--rot{background:transparent;border:none;padding-left:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx-3)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border:1px solid var(--line-soft);font-size:12.5px;color:var(--tx-2);background:var(--card)}
+.chip svg{width:13px;height:13px;color:var(--mint);flex:none}
+.chip--rot{background:transparent;border:none;padding-left:0;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--tx-2)}
 
 /* ================================== Cierre ================================= */
-.frase{font-size:clamp(26px,4.2vw,50px);font-weight:900;letter-spacing:-.035em;max-width:24ch;line-height:1.06}
-.contacto{display:flex;gap:28px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--tx-3)}
-.contacto b{display:block;color:var(--tx);font-size:15px;font-weight:700;margin-top:4px;font-family:var(--grot);letter-spacing:-.01em}
-.demo{display:inline-flex;align-items:center;gap:12px;max-width:100%;padding:16px 22px;border-radius:15px;text-decoration:none;
-  background:linear-gradient(140deg,var(--acc-2),var(--acc));color:#fff;font-weight:800;font-size:clamp(15px,1.7vw,21px);letter-spacing:-.02em;box-shadow:var(--sh);word-break:break-word}
-@media (prefers-color-scheme:dark){.demo{color:#06120E}}
-.demo svg{width:19px;height:19px;flex:none}
-.pie{font-family:var(--mono);font-size:11.5px;color:var(--tx-3);letter-spacing:.06em;border-top:1px solid var(--line);padding-top:14px}
+.frase{font-family:var(--serif);font-size:clamp(30px,4.6vw,60px);font-weight:400;letter-spacing:-.015em;max-width:22ch;line-height:1}
+.contacto{display:flex;gap:30px;flex-wrap:wrap;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--tx-2)}
+.contacto b{display:block;color:var(--tx);font-size:16px;font-weight:600;margin-top:7px;font-family:var(--sans);letter-spacing:-.01em;text-transform:none}
+.demo{
+  display:inline-flex;align-items:center;gap:12px;max-width:100%;align-self:flex-start;
+  padding:16px 26px;border-radius:999px;text-decoration:none;
+  background:var(--grad);color:var(--ink);font-weight:800;font-size:clamp(14.5px,1.6vw,19px);letter-spacing:-.01em;
+  word-break:break-word;transition:transform .3s var(--ease),filter .3s;
+  box-shadow:0 0 44px var(--glow);
+}
+.demo:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.demo svg{width:18px;height:18px;flex:none}
+@keyframes latido{0%,100%{box-shadow:0 0 0 0 rgba(135,255,193,.5),0 0 44px var(--glow)}50%{box-shadow:0 0 0 16px rgba(135,255,193,0),0 0 44px var(--glow)}}
+.demo{animation:latido 2.6s ease-out infinite}
+.pie{font-family:var(--mono);font-size:10px;color:var(--tx-2);letter-spacing:.22em;text-transform:uppercase;border-top:1px solid var(--line-soft);padding-top:16px}
 
 @media (max-width:860px){
-  .slide{padding:56px 20px 82px}
+  .slide{padding:64px 20px 86px}
   .nav{left:20px}
   .pag{right:20px}
-  .marca{left:20px;top:17px}
+  .marca{left:20px;top:18px}
+  .contacto{gap:20px}
 }
 @media (prefers-reduced-motion:reduce){
   .slide.on,.slide.on .lienzo>.cae{animation:none;opacity:1;transform:none}
   .barra{transition:none}
+  .halo,.demo{animation:none}
 }
 
 /* ================================== Imprimir ============================== */
 @media print{
   :root{
-    --bg:#fff;--surface:#fff;--surface-2:#F4F6F9;
-    --line:rgba(0,0,0,.18);--line-2:rgba(0,0,0,.3);
-    --tx:#000;--tx-2:#333;--tx-3:#666;
-    --acc:#0A6A50;--acc-2:#0A6A50;--acc-soft:#EFF6F3;--acc-line:#9CC9BC;
-    --sh:none;color-scheme:light;
+    --ink:#fff;--ink-2:#F4F7F6;--card:#fff;--card-2:#F4F7F6;
+    --line:#9CC9BC;--line-soft:rgba(0,0,0,.18);
+    --tx:#04090B;--tx-2:#3B464A;--tx-3:#5E6A6D;
+    --mint:#0A6B48;--acc:#0A6B48;--acc-soft:#EFF6F3;--glow:transparent;
+    --grad:none;color-scheme:light;
   }
-  body{overflow:visible;background:#fff}
+  body{overflow:visible;background:#fff;color:#04090B}
+  .fondo,.grano,.barra,.nav,.pista,.pag,.marca{display:none!important}
   .deck{height:auto;overflow:visible}
   .slide{position:relative;inset:auto;display:flex!important;opacity:1!important;overflow:visible;
     height:auto;min-height:0;padding:14px 16px;break-after:page;page-break-after:always;break-inside:avoid;animation:none}
   .lienzo{margin:0 auto}
   .slide:last-child{break-after:auto;page-break-after:auto}
   .slide .lienzo>.cae{opacity:1!important;transform:none!important;animation:none}
-  .barra,.nav,.pista,.pag,.marca{display:none}
-  .demo{color:#0A6A50;background:none;border:1px solid #0A6A50;box-shadow:none}
-  .regla .ico{background:#0A6A50}
+  .tit em,.tit-2 em{background:none;color:#0A6B48;-webkit-text-fill-color:#0A6B48}
+  .fantasma{-webkit-text-stroke:0;color:#5E6A6D;-webkit-text-fill-color:#5E6A6D}
+  .tarj,.kpi,.fila,.chip,.tabla,.kpis{background:#fff;border-color:rgba(0,0,0,.2)}
+  .kpis{background:#fff;gap:0}
+  .kpi{border-right:1px solid rgba(0,0,0,.14)}
+  .fila--dest{background:#EFF6F3;box-shadow:inset 2px 0 0 #0A6B48}
+  .fila--dest .val,.kpi.mora b,.tarj .n,.paso .num,.pl small{color:#0A6B48}
+  .regla{background:#EFF6F3;border-left:2px solid #0A6B48}
+  .regla .ico{background:#0A6B48;border-color:#0A6B48}
   .regla .ico svg{color:#fff}
+  .lista .ico{background:#EFF6F3;border-color:#9CC9BC}
+  .lista .ico svg,.chip svg,.eyebrow{color:#0A6B48}
+  .eyebrow::before{background:#0A6B48}
+  .marcador{background:#EFF6F3;border-color:#9CC9BC;color:#0A6B48}
+  .demo{background:none;color:#0A6B48;border:1px solid #0A6B48;box-shadow:none;animation:none}
 }
 </style>
 
@@ -231,8 +293,18 @@ a{color:inherit}
 <g id="i-right" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5L16 12l-6.5 6.5"/></g>
 </defs></svg>
 
+<div class="fondo" aria-hidden="true">
+  <div class="reticula"></div>
+  <div class="halo a"></div>
+  <div class="halo b"></div>
+</div>
+<div class="grano" aria-hidden="true"></div>
+
 <div class="barra" id="barra"></div>
-<div class="marca"><span class="m"><svg viewBox="0 0 24 24"><use href="#i-doc"/></svg></span><span>MOVA<i>NORTE</i></span></div>
+<div class="marca">
+  <span class="m"><svg viewBox="0 0 24 24"><use href="#i-doc"/></svg></span>
+  <span><span class="tx">MOVA<i>NORTE</i></span><small>Automatización · Iquique</small></span>
+</div>
 <div class="pag" id="pag">01 / 06</div>
 <div class="nav">
   <button id="ant" type="button" aria-label="Lámina anterior"><svg viewBox="0 0 24 24"><use href="#i-left"/></svg></button>
@@ -246,9 +318,9 @@ a{color:inherit}
   <section class="slide on">
     <div class="lienzo">
       <div class="cae"><span class="eyebrow">Presentación comercial</span></div>
-      <h1 class="tit cae" style="margin-top:22px;font-size:clamp(32px,6vw,72px);max-width:17ch">Cuotas y cobranza,<br><em>sin planilla ni cuaderno.</em></h1>
-      <p class="sub cae" style="margin-top:20px">El alumno entra con su RUT, ve lo que debe y sube su comprobante. La escuela solo aprueba.</p>
-      <div class="contacto cae" style="margin-top:44px">
+      <h1 class="tit cae" style="margin-top:26px;max-width:15ch"><span class="ln">Cuotas y cobranza,</span><span class="ln fantasma">sin planilla</span><span class="ln">ni <em>cuaderno.</em></span></h1>
+      <p class="sub cae" style="margin-top:26px">El alumno entra con su RUT, ve lo que debe y sube su comprobante. La escuela solo aprueba.</p>
+      <div class="contacto cae" style="margin-top:48px;padding-top:26px;border-top:1px solid var(--line-soft)">
         <div>Presenta<b>Movanorte</b></div>
         <div>Dónde<b>Iquique</b></div>
         <div>Fecha<b>Septiembre 2026</b></div>
@@ -260,13 +332,13 @@ a{color:inherit}
   <section class="slide">
     <div class="lienzo">
       <div class="cae"><span class="eyebrow">El problema</span></div>
-      <h2 class="tit cae" style="margin:22px 0 32px;max-width:24ch">¿Quién lleva el control de <em>quién pagó</em>?</h2>
+      <h2 class="tit cae" style="margin:24px 0 34px;max-width:22ch">¿Quién lleva el control de <em>quién pagó</em>?</h2>
       <div class="cols cae">
         <div class="tarj"><span class="n">01</span><h3>El comprobante que nadie alcanzó a revisar</h3><p>Llega por WhatsApp entre veinte mensajes más. El alumno ya pagó y en la planilla sigue debiendo.</p></div>
         <div class="tarj"><span class="n">02</span><h3>La cuota atrasada que nadie persiguió</h3><p>El atraso no avisa solo. Se descubre cuando el alumno terminó el curso y quedó debiendo.</p></div>
         <div class="tarj"><span class="n">03</span><h3>El tiempo del mostrador</h3><p>"¿Cuánto debo?" se responde varias veces al día, buscando en la planilla con alguien esperando.</p></div>
       </div>
-      <p class="pie-nota cae" style="margin-top:30px"><b>Referencias, no promesas.</b> Un curso de licencia clase B cuesta entre $280.000 y $400.000: una sola matrícula perdida por falta de seguimiento es plata gruesa. En otro rubro que cobra cuotas mes a mes —las comunidades— el estudio Edifito 2025 midió morosidad en el 29,8% de las unidades. Sirve para ver el tamaño del problema, no para prometer un resultado.</p>
+      <p class="pie-nota cae" style="margin-top:32px"><b>Referencias, no promesas.</b> Un curso de licencia clase B cuesta entre $280.000 y $400.000: una sola matrícula perdida por falta de seguimiento es plata gruesa. En otro rubro que cobra cuotas mes a mes —las comunidades— el estudio Edifito 2025 midió morosidad en el 29,8% de las unidades. Sirve para ver el tamaño del problema, no para prometer un resultado.</p>
     </div>
   </section>
 
@@ -274,14 +346,14 @@ a{color:inherit}
   <section class="slide">
     <div class="lienzo">
       <div class="cae"><span class="eyebrow">Cómo funciona</span></div>
-      <h2 class="tit-2 cae" style="margin:18px 0 22px">Cuatro pasos, y el último es el suyo</h2>
+      <h2 class="tit-2 cae" style="margin:20px 0 26px">Cuatro pasos, y el último es el suyo</h2>
       <div class="pasos cae">
         <div class="paso"><span class="num">PASO 1</span><div><b>Entra con su RUT</b><p>Le llega un código de 4 dígitos a su WhatsApp. Sin contraseñas que administrar.</p></div></div>
         <div class="paso"><span class="num">PASO 2</span><div><b>Sube el comprobante</b><p>La foto del banco o el PDF, desde su teléfono, a cualquier hora.</p></div></div>
         <div class="paso"><span class="num">PASO 3</span><div><b>La IA lo lee</b><p>Monto, fecha, cuenta de destino, número de operación y glosa quedan escritos para contrastarlos con la cartola.</p></div></div>
         <div class="paso"><span class="num">PASO 4</span><div><b>Ustedes aprueban</b><p>Recién ahí se aplica, desde la cuota más antigua impaga.</p></div></div>
       </div>
-      <div class="regla cae" style="margin-top:26px">
+      <div class="regla cae" style="margin-top:28px">
         <span class="ico"><svg viewBox="0 0 24 24"><use href="#i-lock"/></svg></span>
         <div>
           <b>Nada entra a la caja hasta que alguien de la escuela lo confirma.</b>
@@ -295,7 +367,7 @@ a{color:inherit}
   <section class="slide">
     <div class="lienzo">
       <div class="cae"><span class="eyebrow">Qué ve la escuela</span></div>
-      <h2 class="tit-2 cae" style="margin:18px 0 22px">Los cuatro números del mes, en una pantalla</h2>
+      <h2 class="tit-2 cae" style="margin:20px 0 26px">Los cuatro números del mes, en una pantalla</h2>
       <div class="kpis cae">
         <div class="kpi"><span>Alumnos activos</span><b>68</b><small>cursos en marcha</small></div>
         <div class="kpi"><span>Recaudado en el mes</span><b>$7.140.000</b><small>aprobado, no declarado</small></div>
@@ -314,8 +386,8 @@ a{color:inherit}
   <!-- 5 · Los tres planes -->
   <section class="slide">
     <div class="lienzo">
-      <div class="cae" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center"><span class="eyebrow">Inversión</span><span class="marcador">Los dos primeros meses son gratis</span></div>
-      <h2 class="tit-2 cae" style="margin:14px 0 18px">Tres planes, según cuántos alumnos maneja</h2>
+      <div class="cae" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center"><span class="eyebrow">Inversión</span><span class="marcador">Los dos primeros meses son gratis</span></div>
+      <h2 class="tit-2 cae" style="margin:18px 0 22px">Tres planes, según cuántos alumnos maneja</h2>
       <div class="tabla cae">
         <div class="fila fila--cab">
           <div>Plan</div><div>Alumnos activos</div><div>Sedes</div><div>Accesos</div><div>Al mes</div><div>Instalación</div>
@@ -345,7 +417,7 @@ a{color:inherit}
           <div class="ins" data-t="Instalación">$690.000</div>
         </div>
       </div>
-      <div class="chips cae" style="margin-top:16px">
+      <div class="chips cae" style="margin-top:18px">
         <span class="chip chip--rot">La instalación incluye</span>
         <span class="chip"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg>Carga de alumnos y aranceles desde su planilla</span>
         <span class="chip"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg>Su logo y sus colores</span>
@@ -353,8 +425,8 @@ a{color:inherit}
         <span class="chip"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg>Conexión del WhatsApp de la escuela</span>
         <span class="chip"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg>Capacitación al mostrador</span>
       </div>
-      <p class="sub cae" style="margin-top:18px"><b>Un curso cuesta cerca de $340.000: si el sistema recupera una matrícula al año, ya se pagó.</b></p>
-      <p class="pie-nota cae" style="margin-top:10px">Instalación por adelantado, una sola vez. El plan se empieza a cobrar el mes 3. <b>Anual:</b> pagando 12 meses por adelantado se cobran 10.</p>
+      <p class="sub cae" style="margin-top:20px"><b>Un curso cuesta cerca de $340.000: si el sistema recupera una matrícula al año, ya se pagó.</b></p>
+      <p class="pie-nota cae" style="margin-top:12px">Instalación por adelantado, una sola vez. El plan se empieza a cobrar el mes 3. <b>Anual:</b> pagando 12 meses por adelantado se cobran 10.</p>
     </div>
   </section>
 
@@ -362,13 +434,13 @@ a{color:inherit}
   <section class="slide">
     <div class="lienzo">
       <div class="cae"><span class="eyebrow">Esto ya funciona</span></div>
-      <h2 class="frase cae" style="margin:20px 0 26px">Operando desde septiembre de 2026, no en proyecto.</h2>
+      <h2 class="frase cae" style="margin:24px 0 30px">Operando desde septiembre de 2026, no en proyecto.</h2>
       <div class="cols-2 cae" style="align-items:start">
         <ul class="lista">
           <li><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span><div><b>Corriendo en el centro de padres de un colegio de Iquique</b>: comprobantes leídos por IA, aprobación y avisos por WhatsApp. Movanorte mantiene 5 paneles de gestión en producción.</div></li>
           <li><span class="ico"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span><div><b>Si dicen que sí: dos semanas</b> desde que entregan su planilla de alumnos y aranceles. Instalación por adelantado, y los dos primeros meses del plan van gratis.</div></li>
         </ul>
-        <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:22px">
           <a class="demo" href="https://movanorte.cl/demo/cuotas/"><svg viewBox="0 0 24 24"><use href="#i-link"/></svg>movanorte.cl/demo/cuotas/</a>
           <div class="contacto">
             <div>Contacto<b>Alejandro Vega</b></div>
@@ -378,7 +450,7 @@ a{color:inherit}
           </div>
         </div>
       </div>
-      <p class="pie cae" style="margin-top:30px">Movanorte · movanorte.cl · Iquique</p>
+      <p class="pie cae" style="margin-top:32px">Movanorte · movanorte.cl · Iquique</p>
     </div>
   </section>
 
