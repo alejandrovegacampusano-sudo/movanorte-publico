@@ -315,7 +315,7 @@
   .spec{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;margin:auto 0 18px;padding-bottom:18px;border-bottom:1px solid var(--line-soft)}
   .spec small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--fog-2)}
   .spec b{display:block;font-weight:600;font-size:13.5px;margin-top:3px}
-  .svc a.more{display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:var(--text);font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+  .svc a.more{display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:var(--text);font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:13px 0;margin:-13px 0}
   @media (max-width:1100px){.svcs{grid-template-columns:1fr 1fr}}
   @media (max-width:640px){.svcs{grid-template-columns:1fr}}
   .mock-wrap{margin-top:clamp(40px,6vh,64px);display:grid;grid-template-columns:5fr 6fr;gap:40px;align-items:center}
@@ -343,8 +343,11 @@
   .ccard .cg small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--fog-2);margin-top:4px}
   .cctl{display:flex;justify-content:space-between;align-items:center;margin-top:34px}
   .dots{display:flex;gap:8px}
-  .dots button{height:2px;border:0;padding:0;background:var(--line-soft);width:8px;cursor:pointer;transition:all .4s}
-  .dots button.on{width:32px;background:var(--mint)}
+  /* la raya se ve de 2px, pero el dedo tiene 28px de alto para acertarle */
+  .dots{gap:4px}
+  .dots button{height:28px;border:0;padding:0 2px;width:12px;cursor:pointer;transition:all .4s;
+    background:linear-gradient(var(--line-soft),var(--line-soft)) center/calc(100% - 4px) 2px no-repeat}
+  .dots button.on{width:36px;background-image:linear-gradient(var(--mint),var(--mint))}
   .arrows{display:flex;gap:10px}
   .arrows button{width:44px;height:44px;border:1px solid var(--line-soft);background:transparent;color:var(--text);cursor:pointer;display:grid;place-items:center;transition:all .3s}
   .arrows button:hover{border-color:var(--mint);background:var(--mint);color:var(--ink)}
@@ -400,6 +403,17 @@
   .frame li{display:flex;gap:10px;color:var(--fog);font-size:15px;line-height:1.5}
   .frame li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--mint);flex:none;margin-top:9px}
   .note{color:var(--fog);font-size:13.5px;margin:18px 0 0;max-width:70ch}
+  /* ---------- preguntas frecuentes ---------- */
+  .faq{max-width:880px;border-top:1px solid var(--line-soft)}
+  .faq details{border-bottom:1px solid var(--line-soft)}
+  .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px;
+    padding:24px 0;font-family:var(--serif);font-size:clamp(20px,2.2vw,26px);line-height:1.25;color:var(--text)}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";flex:none;font-family:var(--mono);font-size:22px;color:var(--mint);transition:transform .35s var(--ease)}
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq summary:hover{color:var(--mint)}
+  .faq summary:focus-visible{outline:1px solid var(--mint);outline-offset:4px}
+  .faq .r{color:var(--fog);font-size:15.5px;line-height:1.7;max-width:68ch;margin:-6px 0 0;padding:0 0 26px}
   @media (max-width:820px){.money{grid-template-columns:1fr}}
 
   /* ---------- contacto ---------- */
@@ -646,6 +660,79 @@
       { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bots y automatización a medida", "description": "Mensajes automáticos y seguimiento según la operación." } }
     ]
   }
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "@id": "https://movanorte.cl/#preguntas",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "¿Cuánto cuesta automatizar mi negocio?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No hay una lista de precios, porque cada negocio pide algo distinto: no cuesta igual una carta digital con QR que una operación de pedidos completa. Primero conversamos 15 minutos, después ves una demo funcionando con tus datos y tu marca, y recién ahí te paso el valor exacto por escrito."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "¿La demo tiene algún costo?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No. La demo es gratis y sin compromiso. La armo con tu marca y tus datos para que veas la solución funcionando antes de decidir nada. Si no te sirve, me lo dices y no pasa nada."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "¿Atienden solo en Iquique?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Atiendo en persona a negocios de Iquique y Alto Hospicio, y al resto de Chile por videollamada. Todo lo que hago funciona por internet, así que la distancia no cambia el resultado."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "¿Qué tipo de negocios pueden automatizar con Movanorte?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Cualquiera que pierda horas en tareas repetidas: peluquerías y centros de estética, talleres mecánicos, consultas de salud, restaurantes y cafeterías, gimnasios, arriendos y turismo, empresas de transporte. Si contestas lo mismo todos los días o llevas la agenda a mano, se puede automatizar."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "¿Qué puede hacer Movanorte por mi negocio?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Webs con dominio propio, agenda online que confirma y recuerda sola, carta digital con QR, pedidos con aviso automático en cada etapa, dashboards y reportes que se arman solos, presentaciones con tu marca, seguimiento de clientes y cobros, y automatización de WhatsApp a medida."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "¿Necesito saber de tecnología?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No. Me cuentas cómo trabajas hoy y yo lo configuro según tu operación. Tú usas el resultado: un panel, un enlace de reservas, un mensaje que sale solo."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "¿Qué pasa después de que queda funcionando?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Hay una mensualidad según lo que uses, que incluye hosting, mantención, soporte directo y ajustes menores. No quedas solo con un sistema que nadie entiende."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "¿Cómo empiezo?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Escríbeme por WhatsApp al +56 9 3257 7561 o al correo movanorte@gmail.com, y cuéntame qué te está quitando más tiempo. Desde ahí agendamos la conversación de 15 minutos."
+   }
+  }
+ ]
 }
 </script>
 <script>document.documentElement.classList.add("js")</script>
@@ -1176,11 +1263,34 @@
 </section>
 
 
-<section class="block" id="contacto">
+<!-- ═══════ PREGUNTAS FRECUENTES ═══════ -->
+<section class="block" id="preguntas">
   <div class="wrap">
     <div class="head reveal draw">
       <div>
-        <span class="marker">08 — Empecemos</span>
+        <span class="marker">08 — Preguntas frecuentes</span>
+        <h2 class="display mask">Lo que todos <br><em class="grad" style="font-style:italic">preguntan primero.</em></h2>
+      </div>
+      <p class="lead">Si tu duda no está aquí, escríbeme por WhatsApp o correo y te respondo yo.</p>
+    </div>
+    <div class="faq reveal">
+      <details><summary>¿Cuánto cuesta automatizar mi negocio?</summary><p class="r">No hay una lista de precios, porque cada negocio pide algo distinto: no cuesta igual una carta digital con QR que una operación de pedidos completa. Primero conversamos 15 minutos, después ves una demo funcionando con tus datos y tu marca, y recién ahí te paso el valor exacto por escrito.</p></details>
+      <details><summary>¿La demo tiene algún costo?</summary><p class="r">No. La demo es gratis y sin compromiso. La armo con tu marca y tus datos para que veas la solución funcionando antes de decidir nada. Si no te sirve, me lo dices y no pasa nada.</p></details>
+      <details><summary>¿Atienden solo en Iquique?</summary><p class="r">Atiendo en persona a negocios de Iquique y Alto Hospicio, y al resto de Chile por videollamada. Todo lo que hago funciona por internet, así que la distancia no cambia el resultado.</p></details>
+      <details><summary>¿Qué tipo de negocios pueden automatizar con Movanorte?</summary><p class="r">Cualquiera que pierda horas en tareas repetidas: peluquerías y centros de estética, talleres mecánicos, consultas de salud, restaurantes y cafeterías, gimnasios, arriendos y turismo, empresas de transporte. Si contestas lo mismo todos los días o llevas la agenda a mano, se puede automatizar.</p></details>
+      <details><summary>¿Qué puede hacer Movanorte por mi negocio?</summary><p class="r">Webs con dominio propio, agenda online que confirma y recuerda sola, carta digital con QR, pedidos con aviso automático en cada etapa, dashboards y reportes que se arman solos, presentaciones con tu marca, seguimiento de clientes y cobros, y automatización de WhatsApp a medida.</p></details>
+      <details><summary>¿Necesito saber de tecnología?</summary><p class="r">No. Me cuentas cómo trabajas hoy y yo lo configuro según tu operación. Tú usas el resultado: un panel, un enlace de reservas, un mensaje que sale solo.</p></details>
+      <details><summary>¿Qué pasa después de que queda funcionando?</summary><p class="r">Hay una mensualidad según lo que uses, que incluye hosting, mantención, soporte directo y ajustes menores. No quedas solo con un sistema que nadie entiende.</p></details>
+      <details><summary>¿Cómo empiezo?</summary><p class="r">Escríbeme por WhatsApp al +56 9 3257 7561 o al correo movanorte@gmail.com, y cuéntame qué te está quitando más tiempo. Desde ahí agendamos la conversación de 15 minutos.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="block dark" id="contacto">
+  <div class="wrap">
+    <div class="head reveal draw">
+      <div>
+        <span class="marker">09 — Empecemos</span>
         <h2 class="display mask">Deja de contestar <br><span class="stroke">lo mismo.</span> <em class="grad">Empieza hoy.</em></h2>
       </div>
     </div>
